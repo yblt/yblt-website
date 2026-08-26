@@ -57,22 +57,23 @@ export const projects = [
     highlight: true
   },
   {
-    name: '足健手环小程序',
+    name: '足健手环',
     repo: 'zepp-health',
     github: 'https://github.com/yblt/zepp-health',
-    desc: '基于 Zepp OS 4.0 的健身训练小程序，为智能手环用户提供足部健康训练指导。',
-    stack: ['JavaScript', 'Zepp OS 4.0', '小程序开发'],
+    desc: '基于 Zepp OS 4.0 的力量训练辅助工具，在手表端实现组数计数、心率三级预警与间歇计时，帮助健身爱好者高效完成力量训练。',
+    stack: ['JavaScript', 'Zepp OS 4.0', '传感器API', '本地持久化'],
     features: [
-      '足部健康评估与个性化训练计划',
-      '实时运动数据追踪与进度可视化',
-      '手环端与手机端数据同步',
-      '低功耗蓝牙通信优化'
+      '组数计数器：上滑手势记录，支持目标组数配置（1-20组），完成后震动反馈',
+      '实时心率监测：Tanaka 公式计算 HRmax，绿(≤90%)/黄(90-95%)/红(≥95%) 三级预警',
+      '间歇倒计时：可配置时长（15-300s），倒计时结束震动提示，防误触冷却机制',
+      '首次启动问卷：出生年份设置 + 免责声明确认，自动计算个人 HRmax',
+      '本地持久化：所有配置与训练状态保存至设备本地存储，重启不丢失'
     ],
     arch: [
-      { items: [{ title: '足部健康评估', sub: '手环端采集' }] },
-      { items: [{ title: '个性化训练计划', sub: 'Zepp OS 4.0' }] },
-      { items: [{ title: '运动数据追踪', sub: '低功耗蓝牙' }] },
-      { items: [{ title: '手机端同步 · 可视化', sub: '进度实时呈现' }] }
+      { items: [{ title: '首次启动问卷', sub: '出生年份 → Tanaka 公式算 HRmax' }] },
+      { items: [{ title: '训练主页', sub: '组数计数 + 实时心率 + 三级颜色预警' }] },
+      { items: [{ title: '间歇倒计时', sub: '可配置时长 · 震动提示 · 防误触' }] },
+      { items: [{ title: '本地持久化', sub: 'KV 存储 · 重启不丢失' }] }
     ]
   },
   {
