@@ -1,6 +1,6 @@
 export const profile = {
   name: '杨彬林',
-  title: '全栈开发工程师',
+  title: '全栈开发工程师 · 1年经验',
   tagline: '全栈开发 | AI 应用开发者 | 开源爱好者',
   target: '求职意向：全栈开发 · 6-8K · 随时到岗',
   age: 21,
@@ -9,7 +9,7 @@ export const profile = {
   github: 'https://github.com/yblt',
   ifdian: 'https://ifdian.net/a/yblt01',
   avatar: 'https://github.com/yblt.png',
-  intro: '21 岁，计算机科学与技术本科在读。3 段开发实习经历，横跨高并发系统重构、AI 产品功能优化与 RAG 应用开发。每天都在寻找更强大更方便的 AI 工具，每天都有新的项目思路，每天都比昨天进步一点点。',
+  intro: '21 岁，计算机科学与技术本科在读，具备 1 年全栈开发经验。横跨高并发系统重构、AI 产品功能优化与 RAG 应用开发，同时是 AI 工具重度玩家与开源爱好者。每天都在寻找更强大更方便的 AI 工具，每天都有新的项目思路，每天都比昨天进步一点点。',
   resumeUrl: '/resume.pdf'
 }
 
@@ -27,6 +27,12 @@ export const projects = [
       '支持 opencode / Claude Code / Codex CLI / OpenHands 多适配器',
       '按微信 userid 隔离独立会话'
     ],
+    arch: [
+      { items: [{ title: '手机 · 企业微信App', sub: '发消息 / 收流式回复' }] },
+      { items: [{ title: '企微服务器', sub: '智能机器人长连接API' }] },
+      { items: [{ title: '桥接程序', sub: 'WebSocket 长连接 · 电脑主动外连' }] },
+      { items: [{ title: 'Agent serve', sub: 'opencode / Claude Code / Codex' }] }
+    ],
     highlight: true
   },
   {
@@ -42,6 +48,12 @@ export const projects = [
       '零依赖核心：纯 Python 标准库，无需 pip',
       '6 大能力：描述 / OCR / 图表 / 文档 / 截图 / 定位'
     ],
+    arch: [
+      { items: [{ title: '图片 / 截图 / OCR / 图表', sub: '本地文件或URL' }] },
+      { items: [{ title: 'glm-4.6v-flash', sub: '免费视觉模型 · OpenAI兼容接口' }] },
+      { items: [{ title: '文字理解', sub: '描述 / OCR / 图表 / 文档 / 定位' }] },
+      { items: [{ title: 'MCP 工具 + CLI', sub: '无缝接入 DeepSeek 等 Agent' }] }
+    ],
     highlight: true
   },
   {
@@ -55,6 +67,12 @@ export const projects = [
       '实时运动数据追踪与进度可视化',
       '手环端与手机端数据同步',
       '低功耗蓝牙通信优化'
+    ],
+    arch: [
+      { items: [{ title: '足部健康评估', sub: '手环端采集' }] },
+      { items: [{ title: '个性化训练计划', sub: 'Zepp OS 4.0' }] },
+      { items: [{ title: '运动数据追踪', sub: '低功耗蓝牙' }] },
+      { items: [{ title: '手机端同步 · 可视化', sub: '进度实时呈现' }] }
     ]
   },
   {
@@ -68,6 +86,12 @@ export const projects = [
       '语义索引与检索',
       '带法条引用的可溯源答案生成',
       '多轮对话上下文管理'
+    ],
+    arch: [
+      { items: [{ title: '《刑法》文档解析', sub: '结构化 + 清洗' }] },
+      { items: [{ title: 'Embedding + 语义索引', sub: '向量数据库' }] },
+      { items: [{ title: '法律问题检索', sub: '相关法条召回' }] },
+      { items: [{ title: '可溯源答案生成', sub: '带法条引用' }] }
     ]
   },
   {
@@ -81,6 +105,12 @@ export const projects = [
       '相似产品图智能检索',
       '基于参考图的 AI 生图',
       '电商场景适配与批量处理'
+    ],
+    arch: [
+      { items: [{ title: '产品图片入库', sub: '特征提取' }] },
+      { items: [{ title: 'Milvus 向量索引', sub: '高效相似检索' }] },
+      { items: [{ title: '相似产品图检索', sub: '电商场景' }] },
+      { items: [{ title: 'AI 生图', sub: '基于参考图生成' }] }
     ]
   },
   {
@@ -95,6 +125,11 @@ export const projects = [
       'RocketMQ 弹幕消息削峰填谷',
       'Redis 多级缓存，命中率 95%+',
       'Sentinel 限流降级保障稳定性'
+    ],
+    arch: [
+      { label: '网关层', items: [{ title: 'Nginx 负载均衡' }, { title: 'Netty WebSocket 集群', sub: 'Redis Pub/Sub 跨节点同步' }] },
+      { label: '业务层', items: [{ title: '直播间服务' }, { title: '用户服务' }, { title: '消息服务' }] },
+      { label: '数据层', items: [{ title: 'MySQL 主从', sub: '读写分离' }, { title: 'Redis 集群', sub: '多级缓存' }, { title: 'RocketMQ', sub: '弹幕削峰' }] }
     ]
   },
   {
@@ -109,6 +144,12 @@ export const projects = [
       '批量处理：ZIP 上传、逐图状态、批量导出',
       '模型量化 + 批处理，处理速度提升 50%+',
       '微服务架构：用户/图像处理/模型推理服务分离'
+    ],
+    arch: [
+      { label: '前端', items: [{ title: '上传 / 作品库 / 对比' }] },
+      { label: '业务层', items: [{ title: '用户服务' }, { title: '图像处理服务' }] },
+      { label: '推理层', items: [{ title: '模型推理服务', sub: 'PyTorch · GPU 量化加速' }] },
+      { label: '存储', items: [{ title: 'MySQL', sub: '作品元数据' }, { title: 'Redis', sub: '任务状态缓存' }] }
     ]
   },
   {
@@ -122,6 +163,13 @@ export const projects = [
       '动态检索决策 Agent，配置中心动态调阈值',
       'Redis 短期记忆 + MySQL 长期记忆分层',
       'Docker Compose 一键启停与扩缩容'
+    ],
+    arch: [
+      { label: '解析层', items: [{ title: '多格式文档解析', sub: 'PDFBox / Tika' }] },
+      { label: '索引层', items: [{ title: '语义切片 + Embedding', sub: 'Faiss 向量库' }] },
+      { label: '检索层', items: [{ title: '向量检索', sub: '召回相关片段' }] },
+      { label: '决策层', items: [{ title: '动态检索决策 Agent', sub: '证据充分度阈值' }] },
+      { label: '生成层', items: [{ title: 'LangChain + 大模型', sub: '带引用可溯源答案' }] }
     ]
   }
 ]

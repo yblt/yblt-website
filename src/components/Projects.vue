@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { projects } from '../data/site'
+import ArchDiagram from './ArchDiagram.vue'
 
 const showAll = ref(false)
 const visible = () => (showAll.value ? projects : projects.slice(0, 6))
@@ -31,6 +32,8 @@ const visible = () => (showAll.value ? projects : projects.slice(0, 6))
 
           <h3 class="project-name">{{ p.name }}</h3>
           <p class="project-desc">{{ p.desc }}</p>
+
+          <ArchDiagram v-if="p.arch" :rows="p.arch" />
 
           <ul class="project-features">
             <li v-for="f in p.features" :key="f">{{ f }}</li>
