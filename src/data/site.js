@@ -172,6 +172,73 @@ export const projects = [
       { label: '决策层', items: [{ title: '动态检索决策 Agent', sub: '证据充分度阈值' }] },
       { label: '生成层', items: [{ title: 'LangChain + 大模型', sub: '带引用可溯源答案' }] }
     ]
+  },
+  {
+    name: '智能温控数据网关',
+    repo: 'temperature-gateway',
+    github: 'https://github.com/yblt/temperature-gateway',
+    desc: '模拟工厂温度传感器通过 MQTT 上报数据，经 SpringBoot 处理后存入 MySQL，并通过 RabbitMQ 转发给下游系统。',
+    stack: ['SpringBoot', 'MQTT', 'RabbitMQ', 'MySQL', 'Docker', 'Jenkins'],
+    features: [
+      '使用 MQTT 协议（Eclipse Paho）实现物联网设备数据接入，支持断线自动重连',
+      '基于 SpringBoot 四层架构（Controller / Service / Repository / DTO），代码结构清晰',
+      '集成 RabbitMQ Topic Exchange，通过 routing key 区分正常/告警消息，实现系统解耦',
+      '内置传感器模拟器（SensorSimulator），每5秒自动生成模拟数据，无需外部工具即可演示完整数据流',
+      'Docker Compose 编排 4 个服务（MySQL / RabbitMQ / EMQX / 应用），一键启动全套环境',
+      '配置 Jenkins Pipeline 实现 CI/CD 自动化构建与部署'
+    ],
+    arch: [
+      { items: [{ title: '传感器模拟器', sub: '每5秒生成温度数据' }] },
+      { items: [{ title: 'MQTT Broker', sub: 'EMQX · 消息路由' }] },
+      { items: [{ title: 'SpringBoot 网关', sub: '数据处理 · 状态判断' }] },
+      { items: [{ title: 'MySQL', sub: '数据存储 · 自动清理' }] },
+      { items: [{ title: 'RabbitMQ', sub: 'Topic Exchange · 消息转发' }] }
+    ]
+  },
+  {
+    name: 'XR机器人挑战赛任务链',
+    repo: 'AutolifeXAIR',
+    github: 'https://github.com/yblt/AutolifeXAIR',
+    desc: 'XR 机器人挑战赛 AutoLife S2 任务链：导航、识别抓取、投放的完整解决方案，支持多物品分拣与双臂切换。',
+    stack: ['Python', 'ROS', '计算机视觉', '状态机', '机器人导航'],
+    features: [
+      '实现导航、识别、抓取、投放完整任务链（T1-T5）',
+      'HSV视觉伺服 + 深度引导抓取，支持多物品分拣（瓶子/衣物）',
+      '双臂支持（左臂/右臂切换），右臂作为备用链路',
+      '安全机制：preview模式预览、fail-closed中止、物理急停',
+      '状态机架构，每段独立运行，任一段失败即整链中止',
+      '证据自动归档，运行日志写入chain_log.csv'
+    ],
+    arch: [
+      { items: [{ title: '导航模块', sub: 'Nav2 命名点导航' }] },
+      { items: [{ title: '视觉检测', sub: 'HSV + 深度相机' }] },
+      { items: [{ title: '抓取状态机', sub: '左臂/右臂切换' }] },
+      { items: [{ title: '投放状态机', sub: '瓶子/衣物分拣' }] },
+      { items: [{ title: 'flow.sh', sub: '一条龙入口 · 全链执行' }] }
+    ],
+    highlight: true
+  },
+  {
+    name: 'AI Website Cloner',
+    repo: 'web-clone',
+    github: 'https://github.com/yblt/web-clone',
+    desc: '基于AI的网站克隆工具，一条命令将任意网站重建为现代Next.js应用，支持12+AI编程代理。',
+    stack: ['Next.js', 'AI应用', '前端工程化', 'Cloudflare Workers'],
+    features: [
+      '一条命令克隆任意网站，支持12+AI编程代理（Claude Code/Codex/Cursor等）',
+      '多阶段流水线：侦察→基础搭建→组件规格→并行构建→组装QA',
+      '自动提取设计token、下载资源、生成组件规格',
+      '部署到Cloudflare Workers，支持Docker开发环境',
+      '支持多页面克隆，保留原站布局与交互行为',
+      'MIT开源，可扩展的架构设计'
+    ],
+    arch: [
+      { items: [{ title: 'AI代理', sub: 'Claude Code / Codex / Cursor' }] },
+      { items: [{ title: '侦察阶段', sub: '截图 · 设计token提取' }] },
+      { items: [{ title: '并行构建', sub: 'git worktree · 多代理协作' }] },
+      { items: [{ title: 'Next.js应用', sub: 'App Router · React 19' }] },
+      { items: [{ title: 'Cloudflare Workers', sub: '边缘部署 · 全球加速' }] }
+    ]
   }
 ]
 
@@ -186,7 +253,10 @@ export const skills = {
       { name: 'Redis', level: 80 },
       { name: 'RocketMQ / Kafka', level: 75 },
       { name: 'Python / FastAPI', level: 80 },
-      { name: 'Docker / K8s', level: 75 }
+      { name: 'Docker / K8s', level: 75 },
+      { name: 'MongoDB', level: 70 },
+      { name: 'Node.js', level: 75 },
+      { name: 'MQTT (Eclipse Paho)', level: 70 }
     ]
   },
   ai: {
@@ -197,6 +267,7 @@ export const skills = {
       { name: 'RAG / Embedding', level: 85 },
       { name: 'Milvus / Faiss', level: 75 },
       { name: 'Agent 开发 (CoT/ReAct)', level: 80 },
+      { name: '多轮对话', level: 80 },
       { name: '提示词工程', level: 85 },
       { name: 'LoRA 微调', level: 70 }
     ]
@@ -218,7 +289,9 @@ export const skills = {
       { name: 'Git / GitHub Actions', level: 85 },
       { name: 'IDEA / VS Code', level: 90 },
       { name: 'Linux', level: 75 },
-      { name: '阿里云 / 腾讯云', level: 70 }
+      { name: '阿里云 / 腾讯云', level: 70 },
+      { name: 'Jenkins', level: 70 },
+      { name: 'Maven', level: 75 }
     ]
   }
 }
@@ -260,8 +333,8 @@ export const highlights = [
     desc: '高并发系统重构、AI 产品优化、RAG 应用开发'
   },
   {
-    title: '6+ 开源项目',
-    desc: 'wecom-opencode-bridge、glm-vision 等原创项目'
+    title: '9+ 开源项目',
+    desc: 'wecom-opencode-bridge、glm-vision、AutolifeXAIR 等原创项目'
   },
   {
     title: 'AI 持续学习',
