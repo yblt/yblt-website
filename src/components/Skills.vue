@@ -1,6 +1,23 @@
 <script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
 import { skills } from '../data/site'
 const categories = Object.values(skills)
+
+const active = ref(false)
+let io
+onMounted(() => {
+  io = new IntersectionObserver(
+    ([e]) => {
+      if (e.isIntersecting) {
+        active.value = true
+        io.disconnect()
+      }
+    },
+    { threshold: 0.15 }
+  )
+  io.observe(document.getElementById('skills'))
+})
+onUnmounted(() => io && io.disconnect())
 </script>
 
 <template>
@@ -18,13 +35,20 @@ const categories = Object.values(skills)
             <h3>{{ cat.label }}</h3>
           </div>
           <div class="skill-list">
-            <div v-for="item in cat.items" :key="item.name" class="skill-row">
+            <div v-for="(item, idx) in cat.items" :key="item.name" class="skill-row">
               <div class="skill-row-top">
                 <span class="skill-name">{{ item.name }}</span>
                 <span class="skill-level">{{ item.level }}%</span>
               </div>
               <div class="skill-bar">
-                <div class="skill-fill" :style="{ width: item.level + '%', '--cat': cat.color }"></div>
+                <div
+                  class="skill-fill"
+                  :style="{
+                    width: active ? item.level + '%' : '0%',
+                    '--cat': cat.color,
+                    transitionDelay: Math.min(idx * 60, 400) + 'ms'
+                  }"
+                ></div>
               </div>
             </div>
           </div>

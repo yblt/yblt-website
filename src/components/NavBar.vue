@@ -4,6 +4,13 @@ import { nav } from '../data/site'
 
 const scrolled = ref(false)
 const open = ref(false)
+const theme = ref(document.documentElement.dataset.theme || 'light')
+
+const toggleTheme = () => {
+  theme.value = theme.value === 'dark' ? 'light' : 'dark'
+  document.documentElement.dataset.theme = theme.value
+  localStorage.setItem('theme', theme.value)
+}
 
 const onScroll = () => {
   scrolled.value = window.scrollY > 20
@@ -34,6 +41,10 @@ onUnmounted(() => {
         <a v-for="item in nav" :key="item.id" :href="`#${item.id}`" @click.prevent="scrollTo(item.id)">
           {{ item.label }}
         </a>
+        <button class="theme-btn" @click="toggleTheme" :title="theme === 'dark' ? '切换浅色' : '切换深色'">
+          <svg v-if="theme === 'dark'" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg v-else viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
         <a href="/resume.pdf" target="_blank" class="btn btn-small btn-primary">下载简历</a>
       </nav>
 
@@ -47,6 +58,9 @@ onUnmounted(() => {
         <a v-for="item in nav" :key="item.id" :href="`#${item.id}`" @click.prevent="scrollTo(item.id)">
           {{ item.label }}
         </a>
+        <button class="theme-btn mobile-theme" @click="toggleTheme">
+          {{ theme === 'dark' ? '切换浅色模式' : '切换深色模式' }}
+        </button>
         <a href="/resume.pdf" target="_blank" class="btn btn-primary btn-block">下载简历</a>
       </nav>
     </transition>
@@ -64,9 +78,9 @@ onUnmounted(() => {
   background: transparent;
 }
 .nav.scrolled {
-  background: rgba(255, 255, 255, 0.92);
+  background: var(--nav-bg);
   backdrop-filter: blur(12px);
-  box-shadow: 0 1px 12px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 1px 12px var(--shadow);
 }
 .nav-inner {
   display: flex;
@@ -101,6 +115,39 @@ onUnmounted(() => {
   transition: color 0.2s;
 }
 .desktop-nav a:not(.btn):hover {
+  color: var(--primary);
+}
+.theme-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s, transform 0.2s;
+}
+.theme-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  transform: rotate(15deg);
+}
+.theme-btn.mobile-theme {
+  width: auto;
+  height: auto;
+  justify-content: flex-start;
+  padding: 10px 0;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  font-size: 0.95rem;
+  color: var(--ink);
+}
+.theme-btn.mobile-theme:hover {
+  transform: none;
   color: var(--primary);
 }
 .hamburger {

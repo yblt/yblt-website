@@ -148,7 +148,7 @@ import { experiences, education } from '../data/site'
 .edu-card {
   padding: 24px;
   border-radius: 14px;
-  background: linear-gradient(135deg, rgba(79, 70, 229, 0.05), var(--card));
+  background: linear-gradient(135deg, var(--primary-soft), var(--card));
   border: 1px solid var(--line);
 }
 .edu-top {
@@ -163,7 +163,7 @@ import { experiences, education } from '../data/site'
   padding: 4px 12px;
   border-radius: 999px;
   color: var(--primary);
-  background: rgba(79, 70, 229, 0.1);
+  background: var(--primary-soft);
 }
 .edu-card h4 {
   font-size: 1.15rem;
@@ -185,8 +185,8 @@ import { experiences, education } from '../data/site'
   padding: 5px 12px;
   border-radius: 8px;
   color: var(--accent);
-  background: rgba(13, 148, 136, 0.08);
-  border: 1px solid rgba(13, 148, 136, 0.2);
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-line);
 }
 .mini-stats {
   display: grid;

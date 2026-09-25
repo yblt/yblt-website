@@ -1,5 +1,6 @@
 <script setup>
 import { profile, highlights } from '../data/site'
+import CountUp from './CountUp.vue'
 
 const scrollTo = (id) => {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
@@ -12,7 +13,7 @@ const scrollTo = (id) => {
       <div class="hero-grid">
         <div class="hero-text">
           <p class="hero-tag">{{ profile.target }}</p>
-          <h1 class="hero-name">
+          <h1 class="hero-name gradient-animated">
             {{ profile.name }}
             <span class="gradient-text">.</span>
           </h1>
@@ -30,7 +31,7 @@ const scrollTo = (id) => {
 
           <div class="hero-stats">
             <div v-for="h in highlights" :key="h.title" class="stat">
-              <div class="stat-num">{{ h.title }}</div>
+              <div class="stat-num"><CountUp :text="h.title" /></div>
               <div class="stat-desc">{{ h.desc }}</div>
             </div>
           </div>
@@ -72,8 +73,8 @@ const scrollTo = (id) => {
   min-height: 100vh;
   display: flex;
   align-items: center;
-  background: radial-gradient(1200px 600px at 80% -10%, rgba(79, 70, 229, 0.08), transparent),
-    radial-gradient(900px 500px at 10% 110%, rgba(13, 148, 136, 0.08), transparent);
+  background: radial-gradient(1200px 600px at 80% -10%, var(--glow-a), transparent),
+    radial-gradient(900px 500px at 10% 110%, var(--glow-b), transparent);
 }
 .hero-grid {
   display: grid;
@@ -87,9 +88,21 @@ const scrollTo = (id) => {
   border-radius: 999px;
   font-size: 0.85rem;
   color: var(--primary);
-  background: rgba(79, 70, 229, 0.08);
-  border: 1px solid rgba(79, 70, 229, 0.2);
+  background: var(--primary-soft);
+  border: 1px solid var(--primary-line);
   margin-bottom: 20px;
+}
+.gradient-animated {
+  background: linear-gradient(120deg, var(--ink) 25%, var(--primary) 55%, var(--accent) 85%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradientSlide 6s ease-in-out infinite alternate;
+}
+@keyframes gradientSlide {
+  from { background-position: 0% 0; }
+  to { background-position: 100% 0; }
 }
 .hero-name {
   font-size: clamp(2.6rem, 6vw, 4rem);
@@ -160,6 +173,20 @@ const scrollTo = (id) => {
   position: relative;
   width: 300px;
 }
+.card-photo::before {
+  content: '';
+  position: absolute;
+  inset: -20px;
+  border-radius: 36px;
+  background: conic-gradient(from 0deg, transparent 0 40%, var(--primary) 50%, var(--accent) 60%, transparent 70% 100%);
+  filter: blur(22px);
+  opacity: 0.45;
+  animation: spinGlow 7s linear infinite;
+  z-index: -1;
+}
+@keyframes spinGlow {
+  to { transform: rotate(360deg); }
+}
 .photo-ring {
   width: 300px;
   height: 360px;
@@ -172,7 +199,7 @@ const scrollTo = (id) => {
   height: 100%;
   object-fit: cover;
   border-radius: 18px;
-  background: #fff;
+  background: var(--card);
 }
 .status-chip {
   margin-top: 18px;
@@ -206,7 +233,7 @@ const scrollTo = (id) => {
   border-radius: 14px;
   background: var(--card);
   border: 1px solid var(--line);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 30px var(--shadow);
   animation: float 5s ease-in-out infinite;
 }
 .float-card-1 {

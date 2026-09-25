@@ -79,7 +79,7 @@ const copyEmail = async () => {
   border-radius: 24px;
   background: var(--card);
   border: 1px solid var(--line);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 20px 60px var(--shadow);
 }
 .contact-head {
   text-align: center;
@@ -103,7 +103,7 @@ const copyEmail = async () => {
   transition: border-color 0.2s, transform 0.2s;
 }
 .contact-item:hover {
-  border-color: rgba(79, 70, 229, 0.35);
+  border-color: var(--primary-line);
   transform: translateY(-2px);
 }
 .contact-icon {

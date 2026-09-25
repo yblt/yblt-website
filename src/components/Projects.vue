@@ -5,6 +5,12 @@ import ArchDiagram from './ArchDiagram.vue'
 
 const featured = computed(() => projects.filter(p => !p.compact))
 const others = computed(() => projects.filter(p => p.compact))
+
+const onSpot = (e) => {
+  const r = e.currentTarget.getBoundingClientRect()
+  e.currentTarget.style.setProperty('--mx', `${e.clientX - r.left}px`)
+  e.currentTarget.style.setProperty('--my', `${e.clientY - r.top}px`)
+}
 </script>
 
 <template>
@@ -21,6 +27,7 @@ const others = computed(() => projects.filter(p => p.compact))
           :key="p.name"
           class="project-card"
           :class="{ featured: p.highlight }"
+          @mousemove="onSpot"
         >
           <div class="project-top">
             <div class="project-repo">
@@ -67,6 +74,7 @@ const others = computed(() => projects.filter(p => p.compact))
   gap: 24px;
 }
 .project-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   padding: 26px;
@@ -75,14 +83,27 @@ const others = computed(() => projects.filter(p => p.compact))
   border: 1px solid var(--line);
   transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
 }
+.project-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), var(--spot), transparent 65%);
+  opacity: 0;
+  transition: opacity 0.35s;
+}
+.project-card:hover::after {
+  opacity: 1;
+}
 .project-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
-  border-color: rgba(79, 70, 229, 0.3);
+  box-shadow: 0 16px 40px var(--shadow);
+  border-color: var(--primary-line);
 }
 .project-card.featured {
-  border-color: rgba(79, 70, 229, 0.35);
-  background: linear-gradient(180deg, rgba(79, 70, 229, 0.04), var(--card) 45%);
+  border-color: var(--primary-line);
+  background: linear-gradient(180deg, var(--primary-soft), var(--card) 45%);
 }
 .project-top {
   display: flex;
@@ -94,7 +115,7 @@ const others = computed(() => projects.filter(p => p.compact))
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 0.78rem;
   color: var(--primary);
-  background: rgba(79, 70, 229, 0.08);
+  background: var(--primary-soft);
   padding: 4px 10px;
   border-radius: 6px;
 }
