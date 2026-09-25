@@ -49,16 +49,16 @@ import { experiences, education } from '../data/site'
           <h3 class="exp-heading" style="margin-top: 32px">🏆 成果速览</h3>
           <div class="mini-stats">
             <div class="mini-stat">
-              <div class="mini-num">99.9%</div>
-              <div class="mini-label">重构后系统可用性</div>
+              <div class="mini-num">2万+</div>
+              <div class="mini-label">单平台同时在线支撑</div>
             </div>
             <div class="mini-stat">
-              <div class="mini-num">20000</div>
-              <div class="mini-label">单直播间并发人数</div>
+              <div class="mini-num">50人</div>
+              <div class="mini-label">同时连麦信令同步</div>
             </div>
             <div class="mini-stat">
-              <div class="mini-num">5万条/秒</div>
-              <div class="mini-label">弹幕处理峰值</div>
+              <div class="mini-num">1,293</div>
+              <div class="mini-label">企业级 Agent trace 量化样本</div>
             </div>
           </div>
         </div>

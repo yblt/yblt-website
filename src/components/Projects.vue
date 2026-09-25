@@ -1,10 +1,10 @@
 <script setup>
-import { ref } from 'vue'
+import { computed } from 'vue'
 import { projects } from '../data/site'
 import ArchDiagram from './ArchDiagram.vue'
 
-const showAll = ref(false)
-const visible = () => (showAll.value ? projects : projects.slice(0, 6))
+const featured = computed(() => projects.filter(p => !p.compact))
+const others = computed(() => projects.filter(p => p.compact))
 </script>
 
 <template>
@@ -17,7 +17,7 @@ const visible = () => (showAll.value ? projects : projects.slice(0, 6))
 
       <div class="projects-grid">
         <article
-          v-for="p in visible()"
+          v-for="p in featured"
           :key="p.name"
           class="project-card"
           :class="{ featured: p.highlight }"
@@ -45,10 +45,16 @@ const visible = () => (showAll.value ? projects : projects.slice(0, 6))
         </article>
       </div>
 
-      <div class="projects-more" v-if="projects.length > 6">
-        <button class="btn btn-ghost" @click="showAll = !showAll">
-          {{ showAll ? '收起' : '查看全部 ' + projects.length + ' 个项目' }}
-        </button>
+      <div class="more-projects" v-if="others.length">
+        <h3 class="more-title">其他项目</h3>
+        <ul class="more-list">
+          <li v-for="p in others" :key="p.name" class="more-item">
+            <span class="more-name">{{ p.name }}</span>
+            <span class="more-desc">{{ p.desc }}</span>
+            <a v-if="p.github" class="more-link" :href="p.github" target="_blank">GitHub ↗</a>
+            <span v-else class="more-link internal">实习项目</span>
+          </li>
+        </ul>
       </div>
     </div>
   </section>
@@ -138,13 +144,61 @@ const visible = () => (showAll.value ? projects : projects.slice(0, 6))
   background: var(--bg);
   border: 1px solid var(--line);
 }
-.projects-more {
-  margin-top: 32px;
-  text-align: center;
+.more-projects {
+  margin-top: 36px;
+  padding: 22px 26px;
+  border-radius: 16px;
+  background: var(--card);
+  border: 1px solid var(--line);
+}
+.more-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--ink-muted);
+  margin-bottom: 12px;
+}
+.more-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.more-item {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 9px 0;
+  border-top: 1px dashed var(--line);
+  font-size: 0.88rem;
+}
+.more-item:first-child {
+  border-top: none;
+}
+.more-name {
+  flex-shrink: 0;
+  font-weight: 600;
+  color: var(--ink);
+}
+.more-desc {
+  flex: 1;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+.more-link {
+  flex-shrink: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--primary);
+  text-decoration: none;
+}
+.more-link.internal {
+  color: var(--ink-muted);
 }
 @media (max-width: 480px) {
   .projects-grid {
     grid-template-columns: 1fr;
+  }
+  .more-item {
+    flex-wrap: wrap;
   }
 }
 </style>

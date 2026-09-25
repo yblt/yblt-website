@@ -50,7 +50,7 @@ const scrollTo = (id) => {
             <span class="fc-icon">⚡</span>
             <div>
               <div class="fc-title">高并发重构</div>
-              <div class="fc-sub">崩溃率 15% → 0.5%</div>
+              <div class="fc-sub">支撑 2 万+ 用户同时在线</div>
             </div>
           </div>
           <div class="float-card float-card-2">
