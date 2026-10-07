@@ -1,6 +1,6 @@
 export const profile = {
   name: '杨彬林',
-  title: '全栈开发工程师 · 1年经验',
+  title: '全栈开发工程师 · 3 段实习 + 项目',
   tagline: 'Java 后端 / 全栈 | AI 应用 Agent 方向 | 开源爱好者',
   target: '求职意向：Java 后端 / 全栈开发（AI 应用 Agent 方向） · 随时到岗',
   age: 21,
@@ -9,7 +9,7 @@ export const profile = {
   github: 'https://github.com/yblt',
   ifdian: 'https://ifdian.net/a/yblt01',
   avatar: 'https://github.com/yblt.png',
-  intro: '21 岁，计算机科学与技术本科在读，1 年全栈开发经验。3 段实习横跨高并发系统重构、AI 产品功能优化与电力行业企业级 Agent 平台的部署联调和 trace 实测验证。同时是 AI 工具重度玩家与开源爱好者，自研 MCP 视觉工具与 Agent 桥接项目对外开源。每天都在寻找更强大更方便的 AI 工具，每天都有新的项目思路，每天都比昨天进步一点点。',
+  intro: '21 岁，计算机科学与技术本科在读，3 段实习 + 项目实战：高并发系统重构、AI 产品功能优化（线上兼职）、电力行业企业级 Agent 平台的部署联调与 trace 实测验证。同时是 AI 工具重度玩家与开源爱好者，自研 MCP 视觉工具与 Agent 桥接项目对外开源。每天都在寻找更强大更方便的 AI 工具，每天都有新的项目思路，每天都比昨天进步一点点。',
   resumeUrl: '/resume.pdf'
 }
 
@@ -357,7 +357,7 @@ export const experiences = [
   {
     company: '深圳极数智能科技有限公司',
     role: '全栈开发工程师',
-    time: '2026.08 · 1个月',
+    time: '2026.08 · 1个月 · 线上兼职',
     points: [
       '完成 Upscayl 竞品（Nero AI / LetsEnhance）深度技术分析，建立产品定位/商业策略/功能设计/交互视觉/技术架构 5 维度分析框架，输出 1.5 万字竞品分析报告',
       '开发作品管理、版本对比、批量处理等核心功能并上线',
