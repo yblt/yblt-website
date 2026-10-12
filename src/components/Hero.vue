@@ -48,7 +48,7 @@ const scrollTo = (id) => {
 
         <aside class="hero-side">
           <div class="idcard">
-            <img class="id-avatar" :src="profile.avatar" :alt="profile.name" />
+            <span class="id-mark" aria-hidden="true">{{ profile.name.charAt(0) }}</span>
             <div class="id-meta">
               <div class="id-name">{{ profile.name }}</div>
               <div class="id-role">{{ role }}</div>
@@ -206,17 +206,24 @@ const scrollTo = (id) => {
   border-radius: 2px;
   background: var(--card);
 }
-.id-avatar {
+.id-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 56px;
   height: 56px;
-  object-fit: cover;
   border-radius: 2px;
-  border: 1px solid var(--hair);
-  filter: grayscale(1) contrast(1.05);
-  transition: filter 0.4s ease;
+  background: var(--ink);
+  color: var(--paper);
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  flex-shrink: 0;
+  transition: background 0.35s ease, color 0.35s ease;
 }
-.idcard:hover .id-avatar {
-  filter: none;
+.idcard:hover .id-mark {
+  background: var(--spot);
+  color: #fff;
 }
 .id-name {
   font-size: 1.15rem;

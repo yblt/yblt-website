@@ -7,7 +7,6 @@ export const profile = {
   phone: '13238339930',
   email: '2713764566@qq.com',
   github: 'https://github.com/yblt',
-  avatar: 'https://github.com/yblt.png',
   intro: '21 岁，计算机科学与技术本科在读，3 段实习 + 项目实战：高并发系统重构、AI 产品功能优化（线上兼职）、电力行业企业级 Agent 平台的部署联调与 trace 实测验证。同时是 AI 工具重度玩家与开源爱好者，自研 MCP 视觉工具与 Agent 桥接项目对外开源。',
   resumeUrl: '/resume.pdf'
 }
