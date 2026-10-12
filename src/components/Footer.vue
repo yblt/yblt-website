@@ -1,79 +1,90 @@
 <script setup>
 import { profile } from '../data/site'
+import Icon from './Icon.vue'
+
 const year = new Date().getFullYear()
 </script>
 
 <template>
   <footer class="footer">
     <div class="container footer-inner">
-      <div class="footer-brand">
-        <span class="brand-dot"></span>
-        <span>杨彬林 · 全栈开发工程师</span>
+      <div class="footer-top">
+        <div class="footer-brand">
+          <span class="footer-name">{{ profile.name }}</span>
+          <span class="footer-role mono">{{ profile.title }}</span>
+        </div>
+        <div class="footer-links">
+          <a :href="profile.github" target="_blank" rel="noopener">GitHub <Icon name="external" :size="12" /></a>
+          <a :href="`mailto:${profile.email}`">邮箱 <Icon name="arrow-right" :size="12" /></a>
+          <a href="/resume.pdf" target="_blank" rel="noopener">简历 PDF <Icon name="download" :size="12" /></a>
+        </div>
       </div>
       <p class="footer-quote">每天都在寻找更强大更方便的 AI 工具，每天都有新的项目思路，每天都比昨天进步一点点。</p>
-      <div class="footer-links">
-        <a :href="profile.github" target="_blank">GitHub</a>
-        <span class="sep">·</span>
-        <a :href="`mailto:${profile.email}`">邮箱</a>
-        <span class="sep">·</span>
-        <a href="/resume.pdf" target="_blank">简历下载</a>
-      </div>
-      <p class="footer-copy">© {{ year }} {{ profile.name }} · Built with Vue 3</p>
+      <p class="footer-copy mono">© {{ year }} {{ profile.name }} · Vue 3 + Vite · 无跟踪脚本</p>
     </div>
   </footer>
 </template>
 
 <style scoped>
 .footer {
-  padding: 48px 0 32px;
-  background: #0f172a;
-  color: #94a3b8;
+  padding: 44px 0 40px;
+  border-top: 1px solid var(--hair-strong);
+  background: var(--paper);
 }
-.footer-inner {
-  text-align: center;
+.footer-top {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px 32px;
 }
 .footer-brand {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 700;
-  color: #f1f5f9;
-  font-size: 1.05rem;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 12px;
 }
-.brand-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #818cf8, #2dd4bf);
+.footer-name {
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  color: var(--ink);
 }
-.footer-quote {
-  max-width: 520px;
-  font-size: 0.85rem;
-  line-height: 1.8;
+.footer-role {
+  color: var(--ink-muted);
 }
 .footer-links {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.85rem;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 .footer-links a {
-  color: #cbd5e1;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  color: var(--ink);
   text-decoration: none;
+  border-bottom: 1px solid var(--hair);
+  padding-bottom: 2px;
+  transition: color 0.2s, border-color 0.2s;
 }
 .footer-links a:hover {
-  color: #818cf8;
+  color: var(--spot);
+  border-color: var(--spot);
 }
-.sep {
-  color: #475569;
+.footer-quote {
+  margin-top: 22px;
+  max-width: 60ch;
+  font-size: 0.88rem;
+  line-height: 1.75;
+  color: var(--ink-soft);
 }
 .footer-copy {
-  font-size: 0.75rem;
-  color: #64748b;
-  margin-top: 6px;
+  margin-top: 18px;
+  color: var(--ink-muted);
+  font-size: 0.7rem;
 }
 </style>

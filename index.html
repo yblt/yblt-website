@@ -4,14 +4,17 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="杨彬林 · 全栈开发工程师 | 高并发系统重构、AI应用开发、开源爱好者。GitHub: yblt" />
+    <meta name="description" content="杨彬林 · 全栈开发工程师 | 高并发系统重构、AI 应用与 Agent 方向、开源爱好者。GitHub: yblt" />
     <title>杨彬林 · 全栈开发工程师</title>
+    <link rel="preload" href="/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/inter-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin />
     <script>
-      // 主题预置，避免刷新闪烁
+      // 主题预置：默认纸白浅色，已存偏好优先，避免刷新闪烁
+      // anim 标记入场动画：无 JS / 打印 / 整页截图时内容一律可见
       (function () {
         var t = localStorage.getItem('theme')
-        if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-        document.documentElement.dataset.theme = t
+        document.documentElement.dataset.theme = t === 'dark' ? 'dark' : 'light'
+        document.documentElement.classList.add('anim')
       })()
     </script>
   </head>

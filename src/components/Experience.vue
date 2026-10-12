@@ -5,220 +5,212 @@ import { experiences, education } from '../data/site'
 <template>
   <section id="experience" class="section">
     <div class="container">
-      <div class="section-head">
-        <h2 class="section-title">经历与教育</h2>
-        <p class="section-sub">实习经历 + 教育背景</p>
+      <div class="section-head reveal">
+        <p class="kicker">04 / 经历与教育</p>
+        <h2 class="section-title mask-reveal">三段实习，一条主线</h2>
+        <p class="section-sub">从单体崩溃到高并发集群，从 AI 产品功能到企业级 Agent 平台的落地验证。</p>
       </div>
 
       <div class="exp-grid">
         <div class="exp-col">
-          <h3 class="exp-heading">💼 实习经历</h3>
-          <div class="timeline">
-            <div v-for="(e, i) in experiences" :key="e.company" class="timeline-item">
-              <div class="timeline-dot" :class="{ last: i === experiences.length - 1 }"></div>
-              <div class="timeline-body">
-                <div class="exp-card">
-                  <div class="exp-head">
-                    <h4>{{ e.role }}</h4>
-                    <span class="exp-time">{{ e.time }}</span>
-                  </div>
-                  <div class="exp-company">{{ e.company }}</div>
-                  <ul>
-                    <li v-for="p in e.points" :key="p">{{ p }}</li>
-                  </ul>
+          <p class="sub-kicker mono">A / 实习经历</p>
+          <div class="exp-list">
+            <article v-for="(e, i) in experiences" :key="e.company" class="exp-item reveal" :style="{ '--i': i }">
+              <div class="exp-head">
+                <span class="exp-idx mono num">{{ String(i + 1).padStart(2, '0') }}</span>
+                <div class="exp-id">
+                  <h3 class="exp-role">{{ e.role }}</h3>
+                  <p class="exp-company">{{ e.company }}</p>
                 </div>
+                <span class="exp-time mono num">{{ e.time }}</span>
               </div>
-            </div>
+              <ul class="exp-points">
+                <li v-for="p in e.points" :key="p">{{ p }}</li>
+              </ul>
+            </article>
           </div>
         </div>
 
-        <div class="exp-col">
-          <h3 class="exp-heading">🎓 教育背景</h3>
-          <div class="edu-card">
-            <div class="edu-top">
-              <span class="edu-badge">本科在读</span>
-              <span class="exp-time">{{ education.time }}</span>
-            </div>
-            <h4>{{ education.school }}</h4>
-            <div class="edu-major">{{ education.major }}</div>
-            <div class="edu-honors">
-              <span v-for="h in education.honors" :key="h" class="honor-chip">{{ h }}</span>
-            </div>
+        <aside class="exp-side">
+          <p class="sub-kicker mono">B / 教育背景</p>
+          <div class="edu reveal">
+            <h3 class="edu-school">{{ education.school }}</h3>
+            <p class="edu-major">{{ education.major }} · {{ education.degree }}</p>
+            <p class="edu-time mono num">{{ education.time }}</p>
+            <ul class="edu-honors">
+              <li v-for="h in education.honors" :key="h">{{ h }}</li>
+            </ul>
           </div>
 
-          <h3 class="exp-heading" style="margin-top: 32px">🏆 成果速览</h3>
-          <div class="mini-stats">
-            <div class="mini-stat">
-              <div class="mini-num">2万+</div>
-              <div class="mini-label">单平台同时在线支撑</div>
+          <p class="sub-kicker mono side-gap">C / 成果速览</p>
+          <div class="figures reveal">
+            <div class="figure">
+              <div class="figure-num num">2 万+</div>
+              <div class="figure-label">单平台同时在线支撑</div>
             </div>
-            <div class="mini-stat">
-              <div class="mini-num">50人</div>
-              <div class="mini-label">同时连麦信令同步</div>
+            <div class="figure">
+              <div class="figure-num num">50 人</div>
+              <div class="figure-label">同时连麦信令同步</div>
             </div>
-            <div class="mini-stat">
-              <div class="mini-num">1,293</div>
-              <div class="mini-label">企业级 Agent trace 量化样本</div>
+            <div class="figure">
+              <div class="figure-num num">1,293</div>
+              <div class="figure-label">企业级 Agent trace 量化样本</div>
             </div>
           </div>
-        </div>
+        </aside>
       </div>
     </div>
   </section>
 </template>
 
 <style scoped>
+.sub-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--spot);
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--hair-strong);
+  margin-bottom: 4px;
+}
+.side-gap {
+  margin-top: 40px;
+}
+
 .exp-grid {
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 48px;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+  gap: 56px;
   align-items: start;
 }
-.exp-heading {
-  font-size: 1.05rem;
-  font-weight: 700;
-  margin-bottom: 24px;
+.exp-list {
+  border-bottom: 1px solid var(--hair);
 }
-.timeline {
-  position: relative;
-  padding-left: 24px;
+.exp-item {
+  padding: 22px 0;
+  border-top: 1px solid var(--hair);
 }
-.timeline::before {
-  content: '';
-  position: absolute;
-  left: 6px;
-  top: 4px;
-  bottom: 4px;
-  width: 2px;
-  background: var(--line);
-}
-.timeline-item {
-  position: relative;
-  margin-bottom: 24px;
-}
-.timeline-dot {
-  position: absolute;
-  left: -24px;
-  top: 8px;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--card);
-  border: 3px solid var(--primary);
-}
-.timeline-dot.last {
-  border-color: var(--accent);
-}
-.exp-card {
-  padding: 20px 22px;
-  border-radius: 14px;
-  background: var(--card);
-  border: 1px solid var(--line);
+.exp-item:first-child {
+  border-top: none;
 }
 .exp-head {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) auto;
+  gap: 12px;
   align-items: baseline;
-  flex-wrap: wrap;
-  gap: 8px;
 }
-.exp-head h4 {
-  font-size: 1.02rem;
-  font-weight: 700;
-  color: var(--ink);
-}
-.exp-time {
-  font-size: 0.8rem;
+.exp-idx {
   color: var(--ink-muted);
-  white-space: nowrap;
+}
+.exp-role {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
 }
 .exp-company {
-  margin-top: 4px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--primary);
-}
-.exp-card ul {
-  margin: 12px 0 0;
-  padding-left: 18px;
+  margin-top: 3px;
+  font-size: 0.86rem;
   color: var(--ink-soft);
+}
+.exp-time {
+  color: var(--ink-muted);
+  white-space: nowrap;
+  font-size: 0.72rem;
+}
+.exp-points {
+  list-style: none;
+  margin: 14px 0 0 42px;
+  padding: 0;
+}
+.exp-points li {
+  position: relative;
+  padding: 6px 0 6px 18px;
   font-size: 0.88rem;
-  line-height: 1.9;
+  line-height: 1.68;
+  color: var(--ink-soft);
+  max-width: 68ch;
 }
-.edu-card {
-  padding: 24px;
-  border-radius: 14px;
-  background: linear-gradient(135deg, var(--primary-soft), var(--card));
-  border: 1px solid var(--line);
+.exp-points li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--ink-muted);
 }
-.edu-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
-.edu-badge {
-  font-size: 0.78rem;
-  font-weight: 600;
-  padding: 4px 12px;
-  border-radius: 999px;
-  color: var(--primary);
-  background: var(--primary-soft);
-}
-.edu-card h4 {
-  font-size: 1.15rem;
-  font-weight: 700;
+
+.edu-school {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-top: 18px;
 }
 .edu-major {
-  margin-top: 6px;
+  margin-top: 4px;
   color: var(--ink-soft);
-  font-size: 0.95rem;
+  font-size: 0.92rem;
+}
+.edu-time {
+  margin-top: 6px;
+  color: var(--ink-muted);
+  font-size: 0.72rem;
 }
 .edu-honors {
-  margin-top: 16px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  border-top: 1px solid var(--hair);
 }
-.honor-chip {
-  font-size: 0.78rem;
-  padding: 5px 12px;
-  border-radius: 8px;
-  color: var(--accent);
-  background: var(--accent-soft);
-  border: 1px solid var(--accent-line);
+.edu-honors li {
+  position: relative;
+  padding: 8px 0 8px 18px;
+  border-bottom: 1px solid var(--hair);
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  line-height: 1.55;
 }
-.mini-stats {
+.edu-honors li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 16px;
+  width: 8px;
+  height: 1px;
+  background: var(--spot);
+}
+
+.figures {
+  border-top: 1px solid var(--hair);
+}
+.figure {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  grid-template-columns: 92px 1fr;
+  gap: 14px;
+  align-items: baseline;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--hair);
 }
-.mini-stat {
-  padding: 16px 12px;
-  text-align: center;
-  border-radius: 12px;
-  background: var(--card);
-  border: 1px solid var(--line);
-}
-.mini-num {
-  font-size: 1.1rem;
+.figure-num {
+  font-size: 1.4rem;
   font-weight: 800;
-  color: var(--primary);
+  letter-spacing: -0.04em;
+  color: var(--ink);
 }
-.mini-label {
-  margin-top: 4px;
-  font-size: 0.72rem;
+.figure:hover .figure-num {
+  color: var(--spot);
+}
+.figure-label {
+  font-size: 0.8rem;
   color: var(--ink-muted);
-  line-height: 1.4;
+  line-height: 1.5;
 }
-@media (max-width: 860px) {
+
+@media (max-width: 900px) {
   .exp-grid {
     grid-template-columns: 1fr;
+    gap: 20px;
   }
-}
-@media (max-width: 480px) {
-  .mini-stats {
-    grid-template-columns: 1fr;
+  .exp-points {
+    margin-left: 0;
   }
 }
 </style>

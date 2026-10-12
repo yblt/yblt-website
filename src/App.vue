@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import NavBar from './components/NavBar.vue'
 import Hero from './components/Hero.vue'
 import Projects from './components/Projects.vue'
@@ -8,12 +8,21 @@ import Experience from './components/Experience.vue'
 import Contact from './components/Contact.vue'
 import Footer from './components/Footer.vue'
 
+let io
 onMounted(() => {
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return
-  const els = document.querySelectorAll(
-    '.section-head, .project-card, .more-projects, .skill-cat, .timeline-item, .edu-card, .mini-stats, .contact-card'
-  )
-  const io = new IntersectionObserver(
+  const els = document.querySelectorAll('.reveal, .mask-reveal')
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
+    els.forEach((el) => el.classList.add('in'))
+    return
+  }
+  // 同一父级内的元素按顺序错峰，跨组的序号在模板里用 --i 指定
+  els.forEach((el) => {
+    if (el.classList.contains('reveal') && !el.style.getPropertyValue('--i')) {
+      const siblings = [...el.parentElement.querySelectorAll(':scope > .reveal')]
+      el.style.setProperty('--i', siblings.indexOf(el) % 5)
+    }
+  })
+  io = new IntersectionObserver(
     (entries) => {
       entries.forEach((en) => {
         if (en.isIntersecting) {
@@ -22,14 +31,11 @@ onMounted(() => {
         }
       })
     },
-    { threshold: 0.12 }
+    { threshold: 0.1, rootMargin: '0px 0px -8% 0px' }
   )
-  els.forEach((el, i) => {
-    el.classList.add('reveal')
-    el.style.animationDelay = (i % 6) * 70 + 'ms'
-    io.observe(el)
-  })
+  els.forEach((el) => io.observe(el))
 })
+onUnmounted(() => io && io.disconnect())
 </script>
 
 <template>

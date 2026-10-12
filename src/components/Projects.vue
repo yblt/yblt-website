@@ -2,64 +2,66 @@
 import { computed } from 'vue'
 import { projects } from '../data/site'
 import ArchDiagram from './ArchDiagram.vue'
+import Icon from './Icon.vue'
 
 const featured = computed(() => projects.filter(p => !p.compact))
 const others = computed(() => projects.filter(p => p.compact))
-
-const onSpot = (e) => {
-  const r = e.currentTarget.getBoundingClientRect()
-  e.currentTarget.style.setProperty('--mx', `${e.clientX - r.left}px`)
-  e.currentTarget.style.setProperty('--my', `${e.clientY - r.top}px`)
-}
+const idx = (i) => String(i + 1).padStart(2, '0')
 </script>
 
 <template>
   <section id="projects" class="section">
     <div class="container">
-      <div class="section-head">
-        <h2 class="section-title">项目作品集</h2>
-        <p class="section-sub">原创开源项目 + 实习期间核心项目，代码与成果均可追溯</p>
+      <div class="section-head reveal">
+        <p class="kicker">02 / 项目作品集</p>
+        <h2 class="section-title mask-reveal">做过什么，都能翻到代码</h2>
+        <p class="section-sub">原创开源项目与实习期核心项目，仓库、文档与量化结果均可追溯。</p>
       </div>
 
-      <div class="projects-grid">
+      <div class="works">
         <article
-          v-for="p in featured"
+          v-for="(p, i) in featured"
           :key="p.name"
-          class="project-card"
-          :class="{ featured: p.highlight }"
-          @mousemove="onSpot"
+          class="work reveal"
+          :style="{ '--i': i % 4 }"
         >
-          <div class="project-top">
-            <div class="project-repo">
-              <span v-if="p.repo" class="repo-name"># {{ p.repo }}</span>
-              <span v-else class="repo-name internal">实习项目</span>
+          <div class="work-head">
+            <span class="work-idx mono num">{{ idx(i) }}</span>
+            <div class="work-id">
+              <h3 class="work-name">{{ p.name }}</h3>
+              <p class="work-meta mono">{{ p.repo ? 'OSS · ' + p.repo : '企业项目 · 未开源' }}</p>
             </div>
-            <a v-if="p.github" class="repo-link" :href="p.github" target="_blank">GitHub ↗</a>
+            <a v-if="p.github" class="work-link" :href="p.github" target="_blank" rel="noopener">
+              仓库 <Icon name="external" :size="13" />
+            </a>
+            <span v-else class="work-link internal">内部项目</span>
           </div>
 
-          <h3 class="project-name">{{ p.name }}</h3>
-          <p class="project-desc">{{ p.desc }}</p>
+          <p class="work-desc">{{ p.desc }}</p>
 
           <ArchDiagram v-if="p.arch" :rows="p.arch" />
 
-          <ul class="project-features">
+          <ul class="work-points">
             <li v-for="f in p.features" :key="f">{{ f }}</li>
           </ul>
 
-          <div class="project-stack">
-            <span v-for="s in p.stack" :key="s" class="chip">{{ s }}</span>
+          <div class="work-stack">
+            <span v-for="s in p.stack" :key="s" class="tag">{{ s }}</span>
           </div>
         </article>
       </div>
 
-      <div class="more-projects" v-if="others.length">
-        <h3 class="more-title">其他项目</h3>
-        <ul class="more-list">
-          <li v-for="p in others" :key="p.name" class="more-item">
-            <span class="more-name">{{ p.name }}</span>
-            <span class="more-desc">{{ p.desc }}</span>
-            <a v-if="p.github" class="more-link" :href="p.github" target="_blank">GitHub ↗</a>
-            <span v-else class="more-link internal">实习项目</span>
+      <div class="others reveal" v-if="others.length">
+        <p class="kicker others-kicker">02.1 / 其他项目</p>
+        <ul class="others-list">
+          <li v-for="(p, i) in others" :key="p.name" class="other-item">
+            <span class="other-idx mono num">{{ idx(i) }}</span>
+            <span class="other-name">{{ p.name }}</span>
+            <span class="other-desc">{{ p.desc }}</span>
+            <a v-if="p.github" class="other-link" :href="p.github" target="_blank" rel="noopener">
+              仓库 <Icon name="arrow-right" :size="12" />
+            </a>
+            <span v-else class="other-link internal">内部项目</span>
           </li>
         </ul>
       </div>
@@ -68,158 +70,170 @@ const onSpot = (e) => {
 </template>
 
 <style scoped>
-.projects-grid {
+.works {
+  display: block;
+}
+.work {
+  padding: 34px 0 38px;
+  border-top: 1px solid var(--hair);
+  transition: border-color 0.25s;
+}
+.work:hover {
+  border-top-color: var(--spot);
+}
+.work-head {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: 24px;
+  grid-template-columns: 40px minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: baseline;
 }
-.project-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  padding: 26px;
-  border-radius: 16px;
-  background: var(--card);
-  border: 1px solid var(--line);
-  transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
-}
-.project-card::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), var(--spot), transparent 65%);
-  opacity: 0;
-  transition: opacity 0.35s;
-}
-.project-card:hover::after {
-  opacity: 1;
-}
-.project-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 40px var(--shadow);
-  border-color: var(--primary-line);
-}
-.project-card.featured {
-  border-color: var(--primary-line);
-  background: linear-gradient(180deg, var(--primary-soft), var(--card) 45%);
-}
-.project-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 14px;
-}
-.repo-name {
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.78rem;
-  color: var(--primary);
-  background: var(--primary-soft);
-  padding: 4px 10px;
-  border-radius: 6px;
-}
-.repo-name.internal {
+.work-idx {
   color: var(--ink-muted);
-  background: var(--bg);
 }
-.repo-link {
-  font-size: 0.85rem;
-  color: var(--ink-muted);
-  text-decoration: none;
-  font-weight: 600;
-}
-.repo-link:hover {
-  color: var(--primary);
-}
-.project-name {
-  font-size: 1.15rem;
+.work-name {
+  font-size: clamp(1.25rem, 2.4vw, 1.7rem);
   font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.25;
+}
+.work-meta {
+  margin-top: 6px;
+  color: var(--ink-muted);
+  letter-spacing: 0.02em;
+}
+.work-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
   color: var(--ink);
-  margin-bottom: 8px;
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--hair-strong);
+  padding-bottom: 2px;
+  transition: color 0.2s, border-color 0.2s;
 }
-.project-desc {
-  font-size: 0.92rem;
+.work-link:hover {
+  color: var(--spot);
+  border-color: var(--spot);
+}
+.work-link.internal {
+  color: var(--ink-muted);
+  border-bottom: none;
+}
+.work-desc {
+  margin: 16px 0 0 58px;
   color: var(--ink-soft);
-  line-height: 1.7;
-  margin-bottom: 14px;
+  font-size: 0.97rem;
+  line-height: 1.78;
+  max-width: 66ch;
 }
-.project-features {
-  margin: 0 0 16px;
-  padding-left: 18px;
+.work-points {
+  margin: 18px 0 0 58px;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--hair);
+  max-width: 74ch;
+}
+.work-points li {
+  position: relative;
+  padding: 9px 0 9px 22px;
+  border-bottom: 1px solid var(--hair);
+  font-size: 0.88rem;
+  line-height: 1.68;
   color: var(--ink-soft);
-  font-size: 0.85rem;
-  line-height: 1.9;
 }
-.project-stack {
-  margin-top: auto;
+.work-points li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--ink-muted);
+}
+.work-stack {
+  margin: 20px 0 0 58px;
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
 }
-.chip {
-  font-size: 0.75rem;
-  padding: 3px 10px;
-  border-radius: 999px;
-  color: var(--ink-muted);
-  background: var(--bg);
-  border: 1px solid var(--line);
+
+/* 其他项目：一行一条的排印表 */
+.others {
+  margin-top: 56px;
 }
-.more-projects {
-  margin-top: 36px;
-  padding: 22px 26px;
-  border-radius: 16px;
-  background: var(--card);
-  border: 1px solid var(--line);
+.others-kicker {
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--hair-strong);
 }
-.more-title {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--ink-muted);
-  margin-bottom: 12px;
-}
-.more-list {
+.others-list {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-.more-item {
-  display: flex;
+.other-item {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 0.9fr) minmax(0, 2.2fr) auto;
+  gap: 16px;
   align-items: baseline;
-  gap: 10px;
-  padding: 9px 0;
-  border-top: 1px dashed var(--line);
-  font-size: 0.88rem;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--hair);
+  transition: background 0.2s;
 }
-.more-item:first-child {
-  border-top: none;
+.other-item:hover {
+  background: var(--spot-soft);
 }
-.more-name {
-  flex-shrink: 0;
-  font-weight: 600;
-  color: var(--ink);
-}
-.more-desc {
-  flex: 1;
-  color: var(--ink-soft);
-  line-height: 1.6;
-}
-.more-link {
-  flex-shrink: 0;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--primary);
-  text-decoration: none;
-}
-.more-link.internal {
+.other-idx {
   color: var(--ink-muted);
 }
-@media (max-width: 480px) {
-  .projects-grid {
-    grid-template-columns: 1fr;
+.other-name {
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+.other-desc {
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+  line-height: 1.6;
+}
+.other-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--ink);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.other-link:hover {
+  color: var(--spot);
+}
+.other-link.internal {
+  color: var(--ink-muted);
+}
+
+@media (max-width: 860px) {
+  .work-desc,
+  .work-points,
+  .work-stack {
+    margin-left: 0;
   }
-  .more-item {
-    flex-wrap: wrap;
+  .work-head {
+    grid-template-columns: 32px minmax(0, 1fr);
+    row-gap: 10px;
+  }
+  .work-link {
+    grid-column: 2;
+    justify-self: start;
+  }
+  .other-item {
+    grid-template-columns: 28px 1fr;
+    gap: 4px 12px;
+  }
+  .other-desc,
+  .other-link {
+    grid-column: 2;
   }
 }
 </style>

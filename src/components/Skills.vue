@@ -1,57 +1,44 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
 import { skills } from '../data/site'
-const categories = Object.values(skills)
 
-const active = ref(false)
-let io
-onMounted(() => {
-  io = new IntersectionObserver(
-    ([e]) => {
-      if (e.isIntersecting) {
-        active.value = true
-        io.disconnect()
-      }
-    },
-    { threshold: 0.15 }
-  )
-  io.observe(document.getElementById('skills'))
-})
-onUnmounted(() => io && io.disconnect())
+const categories = Object.entries(skills).map(([key, cat], i) => ({
+  key,
+  label: cat.label,
+  idx: String(i + 1).padStart(2, '0'),
+  items: cat.items.map((it) => ({ name: it.name, band: band(it.level) }))
+}))
+
+// 自评百分比改成文字档位：面试官看的是范围，不是伪精度
+function band(level) {
+  if (level >= 85) return '熟练'
+  if (level >= 80) return '掌握'
+  if (level >= 75) return '熟悉'
+  return '了解'
+}
 </script>
 
 <template>
   <section id="skills" class="section section-alt">
     <div class="container">
-      <div class="section-head">
-        <h2 class="section-title">技能栈</h2>
-        <p class="section-sub">后端 · AI 应用 · 前端 · 工程化</p>
+      <div class="section-head reveal">
+        <p class="kicker">03 / 技能栈</p>
+        <h2 class="section-title mask-reveal">能干什么，按范围说</h2>
+        <p class="section-sub">后端 · AI 应用 · 前端 · 工程化；档位是自我定位，非打分。</p>
       </div>
 
-      <div class="skills-grid">
-        <div v-for="cat in categories" :key="cat.label" class="skill-cat">
-          <div class="skill-cat-head" :style="{ '--cat': cat.color }">
-            <span class="skill-cat-dot"></span>
-            <h3>{{ cat.label }}</h3>
+      <div class="skill-grid">
+        <div v-for="cat in categories" :key="cat.key" class="skill-cat reveal">
+          <div class="skill-head">
+            <span class="skill-idx mono num">{{ cat.idx }}</span>
+            <h3 class="skill-label">{{ cat.label }}</h3>
+            <span class="skill-count mono num">{{ cat.items.length }} 项</span>
           </div>
-          <div class="skill-list">
-            <div v-for="(item, idx) in cat.items" :key="item.name" class="skill-row">
-              <div class="skill-row-top">
-                <span class="skill-name">{{ item.name }}</span>
-                <span class="skill-level">{{ item.level }}%</span>
-              </div>
-              <div class="skill-bar">
-                <div
-                  class="skill-fill"
-                  :style="{
-                    width: active ? item.level + '%' : '0%',
-                    '--cat': cat.color,
-                    transitionDelay: Math.min(idx * 60, 400) + 'ms'
-                  }"
-                ></div>
-              </div>
-            </div>
-          </div>
+          <ul class="skill-list">
+            <li v-for="item in cat.items" :key="item.name" class="skill-row">
+              <span class="skill-name">{{ item.name }}</span>
+              <span class="skill-band mono">{{ item.band }}</span>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -59,64 +46,69 @@ onUnmounted(() => io && io.disconnect())
 </template>
 
 <style scoped>
-.skills-grid {
+.skill-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 56px;
 }
 .skill-cat {
-  padding: 24px;
-  border-radius: 16px;
-  background: var(--card);
-  border: 1px solid var(--line);
+  padding: 26px 0;
+  border-top: 1px solid var(--hair);
 }
-.skill-cat-head {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 20px;
+.skill-head {
+  display: grid;
+  grid-template-columns: 30px 1fr auto;
+  gap: 12px;
+  align-items: baseline;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--hair-strong);
 }
-.skill-cat-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 4px;
-  background: var(--cat);
+.skill-idx {
+  color: var(--ink-muted);
 }
-.skill-cat-head h3 {
+.skill-label {
   font-size: 1.05rem;
   font-weight: 700;
+  letter-spacing: -0.025em;
+}
+.skill-count {
+  color: var(--ink-muted);
 }
 .skill-list {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
-.skill-row-top {
+.skill-row {
   display: flex;
-  justify-content: space-between;
   align-items: baseline;
-  margin-bottom: 6px;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--hair);
+}
+.skill-row:last-child {
+  border-bottom: none;
 }
 .skill-name {
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--ink);
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  line-height: 1.55;
 }
-.skill-level {
-  font-size: 0.78rem;
+.skill-band {
   color: var(--ink-muted);
-  font-family: ui-monospace, monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
 }
-.skill-bar {
-  height: 6px;
-  border-radius: 3px;
-  background: var(--bg);
-  overflow: hidden;
+.skill-row:hover .skill-band {
+  color: var(--spot);
 }
-.skill-fill {
-  height: 100%;
-  border-radius: 3px;
-  background: linear-gradient(90deg, var(--cat), color-mix(in srgb, var(--cat) 60%, white));
-  transition: width 0.8s ease;
+
+@media (max-width: 860px) {
+  .skill-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
 }
 </style>

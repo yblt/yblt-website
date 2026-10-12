@@ -1,6 +1,9 @@
 <script setup>
-import { profile, highlights } from '../data/site'
+import { profile, education, highlights, nav } from '../data/site'
 import CountUp from './CountUp.vue'
+import Icon from './Icon.vue'
+
+const role = profile.title.split(' · ')[0]
 
 const scrollTo = (id) => {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
@@ -12,56 +15,80 @@ const scrollTo = (id) => {
     <div class="container">
       <div class="hero-grid">
         <div class="hero-text">
-          <p class="hero-tag">{{ profile.target }}</p>
-          <h1 class="hero-name gradient-animated">
-            {{ profile.name }}
-            <span class="gradient-text">.</span>
-          </h1>
-          <p class="hero-title">{{ profile.title }}</p>
-          <p class="hero-sub">{{ profile.tagline }}</p>
+          <p class="kicker hero-target">{{ profile.target }}</p>
+          <h1 class="hero-name">{{ profile.name }}<span class="dot">.</span></h1>
+          <div class="hero-rule">
+            <span class="hero-role">{{ profile.title }}</span>
+            <span class="hero-tagline mono">{{ profile.tagline }}</span>
+          </div>
           <p class="hero-intro">{{ profile.intro }}</p>
 
           <div class="hero-actions">
-            <a class="btn btn-primary" href="/resume.pdf" target="_blank">
-              <span>下载 PDF 简历</span>
+            <a class="btn btn-solid" href="/resume.pdf" target="_blank" rel="noopener">
+              <Icon name="download" :size="16" /><span>下载 PDF 简历</span>
             </a>
-            <button class="btn btn-ghost" @click="scrollTo('projects')">查看项目作品</button>
-            <a class="btn btn-ghost" :href="profile.github" target="_blank">GitHub</a>
+            <a class="linkarrow" href="#projects" @click.prevent="scrollTo('projects')">
+              查看项目作品 <Icon name="arrow-down" :size="14" />
+            </a>
+            <a class="linkarrow" :href="profile.github" target="_blank" rel="noopener">
+              GitHub <Icon name="external" :size="14" />
+            </a>
           </div>
 
-          <div class="hero-stats">
-            <div v-for="h in highlights" :key="h.title" class="stat">
-              <div class="stat-num"><CountUp :text="h.title" /></div>
-              <div class="stat-desc">{{ h.desc }}</div>
-            </div>
-          </div>
+          <ol class="hero-list">
+            <li v-for="(h, i) in highlights" :key="h.title" class="hero-item">
+              <span class="hero-idx mono num">{{ String(i + 1).padStart(2, '0') }}</span>
+              <div>
+                <div class="hero-item-title"><CountUp :text="h.title" /></div>
+                <div class="hero-item-desc">{{ h.desc }}</div>
+              </div>
+            </li>
+          </ol>
         </div>
 
-        <div class="hero-visual">
-          <div class="card-photo">
-            <div class="photo-ring">
-              <img :src="profile.avatar" :alt="profile.name" />
-            </div>
-            <div class="status-chip">
-              <span class="pulse-dot"></span>
-              求职中 · 随时到岗
+        <aside class="hero-side">
+          <div class="idcard">
+            <img class="id-avatar" :src="profile.avatar" :alt="profile.name" />
+            <div class="id-meta">
+              <div class="id-name">{{ profile.name }}</div>
+              <div class="id-role">{{ role }}</div>
             </div>
           </div>
-          <div class="float-card float-card-1">
-            <span class="fc-icon">⚡</span>
-            <div>
-              <div class="fc-title">高并发重构</div>
-              <div class="fc-sub">支撑 2 万+ 用户同时在线</div>
+
+          <div class="spec">
+            <div class="spec-row">
+              <span class="spec-k mono">STATUS</span>
+              <span class="spec-v">求职中 · 随时到岗</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-k mono">AGE</span>
+              <span class="spec-v num">{{ profile.age }}</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-k mono">SCHOOL</span>
+              <span class="spec-v">{{ education.school }} · {{ education.major }}</span>
+            </div>
+            <div class="spec-row">
+              <span class="spec-k mono">EMAIL</span>
+              <span class="spec-v">{{ profile.email }}</span>
             </div>
           </div>
-          <div class="float-card float-card-2">
-            <span class="fc-icon">🤖</span>
-            <div>
-              <div class="fc-title">AI Agent</div>
-              <div class="fc-sub">wecom-opencode-bridge</div>
-            </div>
-          </div>
-        </div>
+
+          <nav class="toc" aria-label="页面目录">
+            <p class="toc-kicker mono">INDEX</p>
+            <a
+              v-for="(item, i) in nav"
+              :key="item.id"
+              class="toc-row"
+              :href="`#${item.id}`"
+              @click.prevent="scrollTo(item.id)"
+            >
+              <span class="toc-idx mono num">{{ String(i + 1).padStart(2, '0') }}</span>
+              <span class="toc-label">{{ item.label }}</span>
+              <Icon name="arrow-right" :size="13" />
+            </a>
+          </nav>
+        </aside>
       </div>
     </div>
   </section>
@@ -69,212 +96,216 @@ const scrollTo = (id) => {
 
 <style scoped>
 .hero {
-  padding: 160px 0 80px;
+  padding: 164px 0 96px;
   min-height: 100vh;
   display: flex;
   align-items: center;
-  background: radial-gradient(1200px 600px at 80% -10%, var(--glow-a), transparent),
-    radial-gradient(900px 500px at 10% 110%, var(--glow-b), transparent);
 }
 .hero-grid {
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 60px;
-  align-items: center;
-}
-.hero-tag {
-  display: inline-block;
-  padding: 6px 14px;
-  border-radius: 999px;
-  font-size: 0.85rem;
-  color: var(--primary);
-  background: var(--primary-soft);
-  border: 1px solid var(--primary-line);
-  margin-bottom: 20px;
-}
-.gradient-animated {
-  background: linear-gradient(120deg, var(--ink) 25%, var(--primary) 55%, var(--accent) 85%);
-  background-size: 220% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: gradientSlide 6s ease-in-out infinite alternate;
-}
-@keyframes gradientSlide {
-  from { background-position: 0% 0; }
-  to { background-position: 100% 0; }
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr);
+  gap: 72px;
+  align-items: start;
 }
 .hero-name {
-  font-size: clamp(2.6rem, 6vw, 4rem);
-  font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-}
-.gradient-text {
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-.hero-title {
-  margin-top: 14px;
-  font-size: 1.3rem;
-  font-weight: 600;
-  color: var(--ink);
-}
-.hero-sub {
-  margin-top: 4px;
-  color: var(--ink-muted);
-  font-size: 1rem;
-}
-.hero-intro {
   margin-top: 18px;
-  max-width: 560px;
-  color: var(--ink-soft);
-  line-height: 1.8;
-  font-size: 0.98rem;
+  font-size: clamp(3.2rem, 8vw, 5.2rem);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1;
 }
-.hero-actions {
-  margin-top: 28px;
+.dot {
+  color: var(--spot);
+}
+.hero-rule {
+  margin-top: 24px;
+  padding: 12px 0;
+  border-top: 1px solid var(--hair-strong);
+  border-bottom: 1px solid var(--hair);
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 6px 24px;
 }
-.hero-stats {
-  margin-top: 40px;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  max-width: 560px;
+.hero-role {
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
 }
-.stat {
-  padding: 16px;
-  border-radius: 12px;
-  background: var(--card);
-  border: 1px solid var(--line);
-}
-.stat-num {
-  font-weight: 700;
-  font-size: 0.95rem;
-  color: var(--ink);
-}
-.stat-desc {
-  margin-top: 4px;
-  font-size: 0.78rem;
+.hero-tagline {
   color: var(--ink-muted);
-  line-height: 1.5;
 }
-.hero-visual {
-  position: relative;
+.hero-intro {
+  margin-top: 22px;
+  color: var(--ink-soft);
+  font-size: 1rem;
+  line-height: 1.8;
+  max-width: 54ch;
+}
+.hero-actions {
+  margin-top: 30px;
   display: flex;
-  justify-content: center;
-}
-.card-photo {
-  position: relative;
-  width: 300px;
-}
-.card-photo::before {
-  content: '';
-  position: absolute;
-  inset: -20px;
-  border-radius: 36px;
-  background: conic-gradient(from 0deg, transparent 0 40%, var(--primary) 50%, var(--accent) 60%, transparent 70% 100%);
-  filter: blur(22px);
-  opacity: 0.45;
-  animation: spinGlow 7s linear infinite;
-  z-index: -1;
-}
-@keyframes spinGlow {
-  to { transform: rotate(360deg); }
-}
-.photo-ring {
-  width: 300px;
-  height: 360px;
-  border-radius: 24px;
-  padding: 6px;
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-}
-.photo-ring img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 18px;
-  background: var(--card);
-}
-.status-chip {
-  margin-top: 18px;
-  display: inline-flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  border-radius: 999px;
-  background: var(--card);
-  border: 1px solid var(--line);
+  gap: 18px 22px;
+}
+
+/* 亮点：编辑式序号列表，不做卡片 */
+.hero-list {
+  list-style: none;
+  margin: 46px 0 0;
+  padding: 0;
+  border-top: 1px solid var(--hair);
+}
+.hero-item {
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  gap: 16px;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--hair);
+  transition: background 0.2s;
+}
+.hero-item:hover {
+  background: var(--spot-soft);
+}
+.hero-idx {
+  color: var(--ink-muted);
+  padding-top: 3px;
+}
+.hero-item-title {
+  font-size: 0.98rem;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  font-variant-numeric: tabular-nums;
+}
+.hero-item-desc {
+  margin-top: 3px;
   font-size: 0.85rem;
   color: var(--ink-muted);
+  line-height: 1.6;
 }
-.pulse-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #22c55e;
-  animation: pulse 1.6s infinite;
+
+/* 侧栏：身份条 + 规格表 + 目录 */
+.hero-side {
+  position: sticky;
+  top: 104px;
 }
-@keyframes pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5); }
-  50% { box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
+.hero-target {
+  text-transform: none;
+  letter-spacing: 0.01em;
+  line-height: 1.7;
+  max-width: 46ch;
 }
-.float-card {
-  position: absolute;
+.idcard {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px 16px;
-  border-radius: 14px;
+  gap: 14px;
+  padding: 14px;
+  border: 1px solid var(--hair-strong);
+  border-radius: 2px;
   background: var(--card);
-  border: 1px solid var(--line);
-  box-shadow: 0 10px 30px var(--shadow);
-  animation: float 5s ease-in-out infinite;
 }
-.float-card-1 {
-  top: 40px;
-  left: -60px;
+.id-avatar {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 2px;
+  border: 1px solid var(--hair);
+  filter: grayscale(1) contrast(1.05);
+  transition: filter 0.4s ease;
 }
-.float-card-2 {
-  bottom: 80px;
-  right: -50px;
-  animation-delay: 2.2s;
+.idcard:hover .id-avatar {
+  filter: none;
 }
-.fc-icon {
-  font-size: 1.4rem;
+.id-name {
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.2;
 }
-.fc-title {
-  font-weight: 600;
-  font-size: 0.88rem;
-}
-.fc-sub {
-  font-size: 0.75rem;
+.id-role {
+  margin-top: 3px;
+  font-size: 0.82rem;
   color: var(--ink-muted);
 }
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+.spec {
+  margin-top: 18px;
+  border-top: 1px solid var(--hair);
 }
-@media (max-width: 960px) {
+.spec-row {
+  display: grid;
+  grid-template-columns: 76px 1fr;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--hair);
+  align-items: baseline;
+}
+.spec-k {
+  color: var(--ink-muted);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+}
+.spec-v {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  overflow-wrap: anywhere;
+}
+
+.toc {
+  margin-top: 26px;
+}
+.toc-kicker {
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  color: var(--ink-muted);
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--hair-strong);
+}
+.toc-row {
+  display: grid;
+  grid-template-columns: 28px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--hair);
+  text-decoration: none;
+  color: var(--ink);
+  transition: color 0.2s, padding-left 0.2s, border-color 0.2s;
+}
+.toc-row:hover {
+  color: var(--spot);
+  padding-left: 8px;
+  border-bottom-color: var(--spot);
+}
+.toc-idx {
+  color: var(--ink-muted);
+  font-size: 0.68rem;
+}
+.toc-label {
+  font-size: 0.88rem;
+}
+
+@media (max-width: 980px) {
+  .hero {
+    padding: 132px 0 64px;
+    min-height: auto;
+  }
   .hero-grid {
     grid-template-columns: 1fr;
-    gap: 48px;
+    gap: 40px;
   }
-  .hero-visual {
-    order: -1;
+  .hero-side {
+    position: static;
+    max-width: 320px;
   }
-  .float-card-1 { left: 0; }
-  .float-card-2 { right: 0; }
 }
-@media (max-width: 480px) {
-  .hero { padding-top: 120px; }
-  .hero-stats { grid-template-columns: 1fr; }
-  .card-photo, .photo-ring { width: 240px; }
-  .photo-ring { height: 290px; }
+@media (max-width: 560px) {
+  .hero-name {
+    font-size: clamp(2.6rem, 13vw, 3.4rem);
+  }
+  .hero-actions {
+    gap: 14px 18px;
+  }
 }
 </style>
