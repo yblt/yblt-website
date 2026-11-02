@@ -21,7 +21,7 @@ const copyEmail = async () => {
     <div class="container">
       <div class="section-head reveal">
         <p class="kicker">05 / 联系我</p>
-        <h2 class="section-title mask-reveal">随时可以聊聊</h2>
+        <h2 class="section-title mask-reveal">联系我</h2>
         <p class="section-sub">邮箱回复最快。</p>
       </div>
 

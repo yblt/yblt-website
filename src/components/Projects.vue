@@ -14,8 +14,8 @@ const idx = (i) => String(i + 1).padStart(2, '0')
     <div class="container">
       <div class="section-head reveal">
         <p class="kicker">02 / 项目作品集</p>
-        <h2 class="section-title mask-reveal">做过什么，都能翻到代码</h2>
-        <p class="section-sub">原创开源项目与实习期核心项目，仓库、文档与量化结果均可追溯。</p>
+        <h2 class="section-title mask-reveal">项目与开源</h2>
+        <p class="section-sub">实习核心项目与 8+ 个原创开源项目，附仓库与文档。</p>
       </div>
 
       <div class="works">

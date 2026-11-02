@@ -7,8 +7,8 @@ import { experiences, education } from '../data/site'
     <div class="container">
       <div class="section-head reveal">
         <p class="kicker">04 / 经历与教育</p>
-        <h2 class="section-title mask-reveal">三段实习，一条主线</h2>
-        <p class="section-sub">从单体崩溃到高并发集群，从 AI 产品功能到企业级 Agent 平台的落地验证。</p>
+        <h2 class="section-title mask-reveal">实习与教育</h2>
+        <p class="section-sub">华源格林（派驻电网客户项目）· 七点跨境（直播电商）· 极数智能（线上兼职）。</p>
       </div>
 
       <div class="exp-grid">

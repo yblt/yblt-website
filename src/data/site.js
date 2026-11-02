@@ -1,13 +1,13 @@
 export const profile = {
   name: '杨彬林',
   title: '全栈开发工程师 · 3 段实习 + 项目',
-  tagline: 'Java 后端 / 全栈 | AI 应用 Agent 方向 | 开源爱好者',
+  tagline: 'Java 后端 / 全栈 · AI 应用 Agent · 8+ 开源项目',
   target: '求职意向：Java 后端 / 全栈开发（AI 应用 Agent 方向） · 随时到岗',
   age: 21,
   phone: '13238339930',
   email: '2713764566@qq.com',
   github: 'https://github.com/yblt',
-  intro: '21 岁，计算机科学与技术本科在读，3 段实习 + 项目实战：高并发系统重构、AI 产品功能优化（线上兼职）、电力行业企业级 Agent 平台的部署联调与 trace 实测验证。同时是 AI 工具重度玩家与开源爱好者，自研 MCP 视觉工具与 Agent 桥接项目对外开源。',
+  intro: '计算机科学与技术本科在读，3 段实习：高并发系统重构、AI 产品功能优化（线上兼职）、电力行业企业级 Agent 平台的部署联调与 trace 实测验证。自研 MCP 视觉工具（glm-vision）与企微 Agent 桥接（wecom-opencode-bridge）等 8+ 项目已开源。',
   resumeUrl: '/resume.pdf'
 }
 
