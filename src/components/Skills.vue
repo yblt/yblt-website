@@ -23,7 +23,7 @@ function band(level) {
       <div class="section-head reveal">
         <p class="kicker">03 / 技能栈</p>
         <h2 class="section-title mask-reveal">技术栈与掌握程度</h2>
-        <p class="section-sub">后端 · AI 应用 · 前端 · 工程化；档位为自评。</p>
+        <p class="section-sub">后端 · AI 应用 · 前端 · 工程化。</p>
       </div>
 
       <div class="skill-grid">
