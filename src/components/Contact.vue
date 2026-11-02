@@ -22,7 +22,7 @@ const copyEmail = async () => {
       <div class="section-head reveal">
         <p class="kicker">05 / 联系我</p>
         <h2 class="section-title mask-reveal">随时可以聊聊</h2>
-        <p class="section-sub">邮箱回复最快；电话欢迎直接拨打。</p>
+        <p class="section-sub">邮箱回复最快。</p>
       </div>
 
       <div class="contact-rows reveal">
@@ -34,15 +34,6 @@ const copyEmail = async () => {
           </div>
           <div class="contact-hint">{{ copied ? '已复制' : '点击复制' }}</div>
         </div>
-
-        <a class="contact-item" :href="`tel:${profile.phone}`">
-          <span class="contact-icon"><Icon name="phone" :size="18" /></span>
-          <div class="contact-body">
-            <div class="contact-label mono">PHONE</div>
-            <div class="contact-value num">{{ profile.phone }}</div>
-          </div>
-          <div class="contact-hint">点击拨打</div>
-        </a>
 
         <a class="contact-item" :href="profile.github" target="_blank" rel="noopener">
           <span class="contact-icon"><Icon name="github" :size="18" /></span>
