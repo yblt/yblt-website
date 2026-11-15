@@ -15,7 +15,9 @@ const scrollTo = (id) => {
     <div class="container">
       <div class="hero-grid">
         <div class="hero-text">
-          <p class="kicker hero-target">{{ profile.target }}</p>
+          <p class="kicker hero-target">
+            <span class="ht">求职意向：</span><span class="ht">{{ profile.target }}</span><span class="ht ht-extra">{{ profile.targetExtra }}</span><span class="ht">· {{ profile.targetAvail }}</span>
+          </p>
           <h1 class="hero-name">{{ profile.name }}<span class="dot">.</span></h1>
           <div class="hero-rule">
             <span class="hero-role">{{ profile.title }}</span>
@@ -195,7 +197,17 @@ const scrollTo = (id) => {
   text-transform: none;
   letter-spacing: 0.01em;
   line-height: 1.7;
-  max-width: 46ch;
+  max-width: none;
+}
+/* 求职意向整行不断行：每个语义段各自 nowrap，段间才允许折行；
+   窄屏隐藏补充括号以保证单行放下，避免"方/向）"这类词中断行 */
+.ht {
+  white-space: nowrap;
+}
+@media (max-width: 560px) {
+  .ht-extra {
+    display: none;
+  }
 }
 .idcard {
   display: flex;
