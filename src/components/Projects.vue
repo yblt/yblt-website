@@ -4,8 +4,21 @@ import { projects } from '../data/site'
 import ArchDiagram from './ArchDiagram.vue'
 import Icon from './Icon.vue'
 
-const featured = computed(() => projects.filter(p => !p.compact))
-const others = computed(() => projects.filter(p => p.compact))
+// 按来源分栏：自研 / 官方源码二开 / fork 与模板 / 实习与企业项目
+const groups = computed(() => [
+  { label: '自研开源', items: projects.filter(p => p.kind === 'self') },
+  { label: '官方源码二开', items: projects.filter(p => p.kind === 'base') },
+  { label: 'Fork 与模板实践', items: projects.filter(p => p.kind === 'fork' || p.kind === 'template') },
+  { label: '实习与企业项目', items: projects.filter(p => p.kind === 'work') },
+].filter(g => g.items.length))
+
+const sourceTag = (p) => {
+  if (p.kind === 'self') return p.private ? '自研 · 私有暂不公开' : '自研开源'
+  if (p.kind === 'base') return '官方源码二开'
+  if (p.kind === 'fork') return 'Fork · 上游 ' + p.upstream
+  if (p.kind === 'template') return '模板 · 上游 ' + p.upstream
+  return '企业项目 · 未开源'
+}
 const idx = (i) => String(i + 1).padStart(2, '0')
 </script>
 
@@ -15,55 +28,51 @@ const idx = (i) => String(i + 1).padStart(2, '0')
       <div class="section-head reveal">
         <p class="kicker">02 / 项目作品集</p>
         <h2 class="section-title mask-reveal">项目与开源</h2>
-        <p class="section-sub">实习核心项目与 8+ 个原创开源项目，附仓库与文档。</p>
+        <p class="section-sub">按来源分栏：自研 / 官方源码二开 / fork 与模板实践 / 实习项目，来源与上游均已标注。</p>
       </div>
 
-      <div class="works">
-        <article
-          v-for="(p, i) in featured"
-          :key="p.name"
-          class="work reveal"
-          :style="{ '--i': i % 4 }"
-        >
-          <div class="work-head">
-            <span class="work-idx mono num">{{ idx(i) }}</span>
-            <div class="work-id">
-              <h3 class="work-name">{{ p.name }}</h3>
-              <p class="work-meta mono">{{ p.repo ? 'OSS · ' + p.repo : '企业项目 · 未开源' }}</p>
+      <div v-for="(g, gi) in groups" :key="g.label" class="group">
+        <p class="kicker group-kicker reveal">02.{{ gi + 1 }} / {{ g.label }}</p>
+
+        <div class="works">
+          <template v-for="(p, i) in g.items" :key="p.name">
+            <article v-if="!p.compact" class="work reveal" :style="{ '--i': i % 4 }">
+              <div class="work-head">
+                <span class="work-idx mono num">{{ idx(i) }}</span>
+                <div class="work-id">
+                  <h3 class="work-name">{{ p.name }}</h3>
+                  <p class="work-meta mono">{{ sourceTag(p) }}{{ p.repo ? ' · ' + p.repo : '' }}</p>
+                </div>
+                <a v-if="p.github" class="work-link" :href="p.github" target="_blank" rel="noopener">
+                  仓库 <Icon name="external" :size="13" />
+                </a>
+                <span v-else-if="p.private" class="work-link internal">私有 · 暂不公开</span>
+                <span v-else class="work-link internal">内部项目</span>
+              </div>
+
+              <p class="work-desc">{{ p.desc }}</p>
+              <ArchDiagram v-if="p.arch" :rows="p.arch" />
+              <ul class="work-points">
+                <li v-for="f in p.features" :key="f">{{ f }}</li>
+              </ul>
+              <div class="work-stack">
+                <span v-for="s in p.stack" :key="s" class="tag">{{ s }}</span>
+              </div>
+            </article>
+
+            <div v-else class="other-item reveal">
+              <span class="other-idx mono num">{{ idx(i) }}</span>
+              <span class="other-name">{{ p.name }}</span>
+              <span class="other-src mono">{{ sourceTag(p) }}</span>
+              <span class="other-desc">{{ p.desc }}</span>
+              <a v-if="p.github" class="other-link" :href="p.github" target="_blank" rel="noopener">
+                仓库 <Icon name="arrow-right" :size="12" />
+              </a>
+              <span v-else-if="p.private" class="other-link internal">私有 · 暂不公开</span>
+              <span v-else class="other-link internal">内部项目</span>
             </div>
-            <a v-if="p.github" class="work-link" :href="p.github" target="_blank" rel="noopener">
-              仓库 <Icon name="external" :size="13" />
-            </a>
-            <span v-else class="work-link internal">内部项目</span>
-          </div>
-
-          <p class="work-desc">{{ p.desc }}</p>
-
-          <ArchDiagram v-if="p.arch" :rows="p.arch" />
-
-          <ul class="work-points">
-            <li v-for="f in p.features" :key="f">{{ f }}</li>
-          </ul>
-
-          <div class="work-stack">
-            <span v-for="s in p.stack" :key="s" class="tag">{{ s }}</span>
-          </div>
-        </article>
-      </div>
-
-      <div class="others reveal" v-if="others.length">
-        <p class="kicker others-kicker">02.1 / 其他项目</p>
-        <ul class="others-list">
-          <li v-for="(p, i) in others" :key="p.name" class="other-item">
-            <span class="other-idx mono num">{{ idx(i) }}</span>
-            <span class="other-name">{{ p.name }}</span>
-            <span class="other-desc">{{ p.desc }}</span>
-            <a v-if="p.github" class="other-link" :href="p.github" target="_blank" rel="noopener">
-              仓库 <Icon name="arrow-right" :size="12" />
-            </a>
-            <span v-else class="other-link internal">内部项目</span>
-          </li>
-        </ul>
+          </template>
+        </div>
       </div>
     </div>
   </section>
@@ -234,6 +243,38 @@ const idx = (i) => String(i + 1).padStart(2, '0')
   .other-desc,
   .other-link {
     grid-column: 2;
+  }
+}
+
+.group-kicker {
+  margin: 34px 0 6px;
+}
+.group:first-of-type .group-kicker {
+  margin-top: 0;
+}
+.other-src {
+  color: var(--ink-muted);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+.other-item {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1.1fr) minmax(0, 0.9fr) minmax(0, 2fr) auto;
+  gap: 14px;
+  align-items: baseline;
+  padding: 14px 0;
+  border-top: 1px solid var(--hair);
+}
+@media (max-width: 820px) {
+  .other-item {
+    grid-template-columns: 28px 1fr auto;
+  }
+  .other-src {
+    grid-column: 2;
+  }
+  .other-desc {
+    grid-column: 2 / -1;
   }
 }
 </style>

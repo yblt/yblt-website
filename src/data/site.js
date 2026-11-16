@@ -1,20 +1,21 @@
 export const profile = {
   name: '杨彬林',
   title: '全栈开发工程师 · 3 段实习 + 项目',
-  tagline: 'Java 后端 / 全栈 · AI 应用 Agent · 8+ 开源项目',
+  tagline: 'Java 后端 / 全栈 · AI 应用 Agent · 4 个自研开源工具',
   target: 'Java 后端 / AI 应用 Agent 开发',
   targetExtra: '（可承担全栈）',
   targetAvail: '随时到岗',
   age: 21,
   email: '2713764566@qq.com',
   github: 'https://github.com/yblt',
-  intro: '计算机科学与技术本科在读，3 段实习：高并发系统重构、AI 产品功能优化（线上兼职）、电力行业企业级 Agent 平台的部署联调与 trace 实测验证。自研 MCP 视觉工具（glm-vision）与企微 Agent 桥接（wecom-opencode-bridge）等 8+ 项目已开源。',
+  intro: '计算机科学与技术本科在读，3 段实习：高并发系统重构、AI 产品功能优化（线上兼职）、电力行业企业级 Agent 平台的部署联调与 trace 实测验证。自研 MCP 视觉工具（glm-vision）与企微 Agent 桥接（wecom-opencode-bridge）等 4 个自研工具已开源（另有官方源码二开与 fork 实践）。',
   resumeUrl: '/resume.pdf'
 }
 
 export const projects = [
   {
     name: '企业级多智能体平台 · trace 量化验证与改进提案',
+    kind: 'work',
     repo: '',
     github: '',
     desc: '主导设计 14 项验证清单，独立完成基于落盘 trace 的全量取证与量化分析：覆盖分层记忆、主从式多 Agent 编排、安全阀与安全边界三类机制，量化 6.3% 工具失败率与根因分布，定位"空查询结果被当业务结论交付"的系统性缺陷；结论直接支撑三项改进方案按业务正确性＞可观测性＞效率排序。',
@@ -37,6 +38,7 @@ export const projects = [
   },
   {
     name: '企业微信智能机器人桥接',
+    kind: 'self',
     repo: 'wecom-opencode-bridge',
     github: 'https://github.com/yblt/wecom-opencode-bridge',
     desc: '企业微信智能机器人(长连接API) ⇄ AI Agent 桥接，手机发消息驱动电脑上 Agent 执行，结果流式回到手机。',
@@ -58,6 +60,7 @@ export const projects = [
   },
   {
     name: 'GLM-Vision 视觉桥接',
+    kind: 'self',
     repo: 'glm-vision',
     github: 'https://github.com/yblt/glm-vision',
     desc: '用智谱完全免费的 GLM-4.6V-Flash 视觉模型，给 DeepSeek 等纯文本模型装上"眼睛"：图片/截图/OCR/图表/扫描文档 → 文字理解。',
@@ -80,6 +83,7 @@ export const projects = [
   },
   {
     name: '中医知识检索增强问答系统',
+    kind: 'work',
     repo: '',
     github: '',
     desc: '面向中医古籍、教材与医案的超长文本 RAG 问答系统，针对 embedding 截断、OCR 干扰与证据不足导致的错误自信回答，设计可控检索决策与分层记忆机制。',
@@ -102,9 +106,10 @@ export const projects = [
   },
   {
     name: 'XR机器人挑战赛任务链（省赛三等奖）',
+    kind: 'base',
     repo: 'AutolifeXAIR',
     github: 'https://github.com/yblt/AutolifeXAIR',
-    desc: '2026 广东省人工智能与机器人大赛 · 服务机器人应用技术员赛项：轮式双臂机器人"导航→抓瓶→投瓶→抓衣→投衣"T1~T5 全流程任务链，实机全链跑通，获省赛三等奖（2 人队伍）。',
+    desc: '2026 广东省人工智能与机器人大赛 · 服务机器人应用技术员赛项：轮式双臂机器人"导航→抓瓶→投瓶→抓衣→投衣"T1~T5 全流程任务链，实机全链跑通，获省赛三等奖（2 人队伍）。官方提供基础源码与出厂标定，本人负责任务链二开与现场调参。',
     stack: ['Python', 'ROS 2', 'OpenCV', 'RGBD深度反投影', 'Nav2', '状态机'],
     features: [
       'T1~T5 任务链联调：导航、识别、抓取、投放完整链路实机跑通',
@@ -125,6 +130,7 @@ export const projects = [
   },
   {
     name: '直播平台高并发系统重构',
+    kind: 'work',
     repo: '',
     github: '',
     desc: '针对娱乐直播平台 2 万用户并发时的直播间崩溃问题，进行系统架构重构和性能优化，实现高并发稳定运行。',
@@ -149,6 +155,7 @@ export const projects = [
   },
   {
     name: 'Upscayl 产品功能优化与性能提升',
+    kind: 'work',
     repo: '',
     github: '',
     desc: '基于竞品分析结果，对 AI 图像增强产品 Upscayl 进行功能优化与性能提升，实现作品管理、版本对比、批量处理等核心功能。',
@@ -172,9 +179,11 @@ export const projects = [
   },
   {
     name: '智能温控数据网关',
+    kind: 'self',
+    private: true,
     repo: 'temperature-gateway',
-    github: 'https://github.com/yblt/temperature-gateway',
-    desc: '模拟工厂温度传感器通过 MQTT 上报数据，经 SpringBoot 处理后存入 MySQL，并通过 RabbitMQ 转发给下游系统。',
+    github: '',
+    desc: '模拟工厂温度传感器通过 MQTT 上报数据，经 SpringBoot 处理后存入 MySQL，并通过 RabbitMQ 转发给下游系统。仓库私有，暂不公开链接。',
     stack: ['SpringBoot', 'MQTT', 'RabbitMQ', 'MySQL', 'Docker', 'Jenkins'],
     features: [
       '使用 MQTT 协议（Eclipse Paho）实现物联网设备数据接入，支持断线自动重连',
@@ -195,6 +204,8 @@ export const projects = [
   },
   {
     name: '刑法知识问答 AI Agent',
+    kind: 'fork',
+    upstream: 'zw-mask/leagel-rag',
     repo: 'leagel-rag',
     github: 'https://github.com/yblt/leagel-rag',
     desc: '基于 RAG（检索增强生成）的刑法知识精准问答 Agent，以《中华人民共和国刑法》为知识源，实现从解析到问答的完整闭环。',
@@ -215,6 +226,8 @@ export const projects = [
   },
   {
     name: '电商生图 RAG',
+    kind: 'fork',
+    upstream: 'liyanxiong278176/nano-banana-milvus',
     repo: 'nano-banana-milvus',
     github: 'https://github.com/yblt/nano-banana-milvus',
     desc: '基于 RAG 技术的电商产品图生成系统，结合向量检索与 AI 生成，为电商商家提供智能产品图生成服务。',
@@ -235,6 +248,7 @@ export const projects = [
   },
   {
     name: '足健手环',
+    kind: 'self',
     repo: 'zepp-health',
     github: 'https://github.com/yblt/zepp-health',
     desc: '基于 Zepp OS 4.0 的力量训练辅助工具，在手表端实现组数计数、心率三级预警与间歇计时，帮助健身爱好者高效完成力量训练。',
@@ -255,18 +269,32 @@ export const projects = [
     compact: true
   },
   {
-    name: 'AI Website Cloner',
+    name: 'NFC 成长吧唧 M1',
+    kind: 'self',
+    repo: 'nfc-growing-badge',
+    github: 'https://github.com/yblt/nfc-growing-badge',
+    desc: 'PC 对话页 + 本机 llama.cpp(Qwen3) + node:sqlite 检索层的最小闭环，推理与检索全部跑在本机。',
+    stack: ['TypeScript', 'llama.cpp', 'node:sqlite', 'NFC'],
+    features: [
+      '本机 llama.cpp 跑 Qwen3，不依赖云端 API',
+      'node:sqlite 检索层最小闭环',
+      'PC 对话页与 personas 角色配置',
+    ],
+    compact: true
+  },
+  {
+    name: '用开源模板克隆并部署两个站点',
+    kind: 'template',
+    upstream: 'JCodesMore/ai-website-cloner-template',
     repo: 'web-clone',
     github: 'https://github.com/yblt/web-clone',
-    desc: '基于AI的网站克隆工具，一条命令将任意网站重建为现代Next.js应用，支持12+AI编程代理。',
+    desc: '基于开源模板 ai-website-cloner-template，把 topview.ai 与 lumeflow.ai 克隆为单个 Next.js 应用，并加静态导出与 Cloudflare Workers 部署。工具本身来自上游，我做的是克隆、适配与部署。',
     stack: ['Next.js', 'AI应用', '前端工程化', 'Cloudflare Workers'],
     features: [
-      '一条命令克隆任意网站，支持12+AI编程代理（Claude Code/Codex/Cursor等）',
-      '多阶段流水线：侦察→基础搭建→组件规格→并行构建→组装QA',
-      '自动提取设计token、下载资源、生成组件规格',
-      '部署到Cloudflare Workers，支持Docker开发环境',
-      '支持多页面克隆，保留原站布局与交互行为',
-      'MIT开源，可扩展的架构设计'
+      '克隆 topview.ai 与 lumeflow.ai 并合并为单个 Next.js 应用',
+      '启用静态导出 + Cloudflare Workers 部署配置',
+      '补 README 的 Final Result 在线演示章节',
+      '上游模板提供多阶段流水线与多代理支持（非本人实现）'
     ],
     arch: [
       { items: [{ title: 'AI代理', sub: 'Claude Code / Codex / Cursor' }] },
@@ -292,7 +320,8 @@ export const skills = {
       { name: 'RocketMQ / Kafka', level: 75 },
       { name: '微服务架构设计 / 技术选型评估', level: 78 },
       { name: 'Python / FastAPI', level: 80 },
-      { name: 'Docker / K8s', level: 75 },
+      { name: 'Docker', level: 75 },
+      { name: 'K8s', level: 60 },
       { name: 'MongoDB', level: 70 },
       { name: 'Node.js', level: 75 },
       { name: 'MQTT (Eclipse Paho)', level: 70 }
@@ -393,8 +422,8 @@ export const highlights = [
     desc: '分层记忆 / 多Agent编排 / trace可观测性的企业级一手验证经验，1,293 次调用量化分析'
   },
   {
-    title: '8+ 开源项目',
-    desc: 'wecom-opencode-bridge、glm-vision、AutolifeXAIR、temperature-gateway 等原创项目'
+    title: '4 个自研开源工具',
+    desc: 'wecom-opencode-bridge、glm-vision、zepp-health、nfc-growing-badge；另有官方源码二开与 fork 实践，来源均已标注'
   },
   {
     title: 'AI 持续学习',

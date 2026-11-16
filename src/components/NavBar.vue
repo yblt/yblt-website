@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, watch, onMounted, onUnmounted } from 'vue'
 import { nav } from '../data/site'
 import Icon from './Icon.vue'
 
@@ -8,6 +8,10 @@ const open = ref(false)
 const progress = ref(0)
 const active = ref(nav[0]?.id)
 const theme = ref(document.documentElement.dataset.theme || 'light')
+
+// 移动菜单打开时锁滚动并加遮罩，避免下方内容可见可点造成误触
+watch(open, (v) => { document.body.style.overflow = v ? 'hidden' : '' })
+onUnmounted(() => { document.body.style.overflow = '' })
 
 const toggleTheme = () => {
   theme.value = theme.value === 'dark' ? 'light' : 'dark'
@@ -57,7 +61,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <header class="nav" :class="{ scrolled }">
+  <header class="nav" :class="{ scrolled, open }">
     <div class="container nav-inner">
       <a href="#home" class="brand" @click.prevent="scrollTo('home')">
         <span class="brand-name">杨彬林</span>
@@ -83,7 +87,7 @@ onUnmounted(() => {
         </a>
       </nav>
 
-      <button class="hamburger" :class="{ open }" @click="open = !open" aria-label="菜单">
+      <button class="hamburger" :class="{ open }" @click="open = !open" aria-label="菜单" :aria-expanded="open">
         <span></span><span></span>
       </button>
     </div>
@@ -104,6 +108,8 @@ onUnmounted(() => {
       </nav>
     </transition>
   </header>
+
+  <div v-if="open" class="mobile-scrim" aria-hidden="true" @click="open = false"></div>
 </template>
 
 <style scoped>
@@ -120,6 +126,10 @@ onUnmounted(() => {
 .nav.scrolled {
   background: var(--nav-bg);
   backdrop-filter: blur(8px);
+  border-bottom-color: var(--hair);
+}
+.nav.open {
+  background: var(--paper);
   border-bottom-color: var(--hair);
 }
 .nav-inner {
@@ -223,7 +233,15 @@ onUnmounted(() => {
 .hamburger.open span:last-child {
   transform: translateY(-3.5px) rotate(-45deg);
 }
+.mobile-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  background: rgba(10, 10, 10, 0.38);
+}
 .mobile-nav {
+  position: relative;
+  z-index: 95;
   display: flex;
   flex-direction: column;
   padding: 8px 20px 20px;
